@@ -18,8 +18,7 @@ public class TaskItem {
     protected boolean turned;
     protected Color priority;
 
-
-    public TaskItem(String taskName,int date,int month,int year,int hour,int minute,boolean finish,boolean turned,Color priority) {
+    public TaskItem(String taskName, int date, int month, int year, int hour, int minute, boolean finish, boolean turned, Color priority) {
         this.name = taskName;
         this.date  = date;
         this.month = month;
@@ -29,6 +28,11 @@ public class TaskItem {
         this.finished = finish;
         this.turned = turned;
         this.priority = priority;
+    }
+
+    @Override
+    public String toString() {
+        return date + "/" + month + "/" + year;
     }
 
 

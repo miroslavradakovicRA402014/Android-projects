@@ -84,7 +84,7 @@ public class TaskAdapter extends BaseAdapter {
         }
 
         holder.nameText.setText(item.getTaskName());
-        String dateTxt = item.getDate() + "/" + item.getMonth()+ "/" + item.getYear();
+        String dateTxt = item.toString();
         holder.dateText.setText(dateTxt);
         holder.completedBox.setChecked(item.isFinished());
         holder.stateButton.setChecked(item.isTurned());
