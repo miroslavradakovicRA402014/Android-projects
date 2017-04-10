@@ -88,6 +88,6 @@ public class TaskItem {
 
     public Color getPriority() { return priority;}
 
-    public void setPriority(int priority) { this.priority = priority;}
+    public void setPriority(Color priority) { this.priority = priority;}
 
 }
