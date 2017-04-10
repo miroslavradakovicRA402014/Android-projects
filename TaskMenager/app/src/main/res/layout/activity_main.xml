@@ -11,6 +11,11 @@
     tools:context="ra402014.pnrs.rtrk.taskmenager.MainActivity">
 
 
+    <ListView
+        android:id="@+id/taskList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:id="@+id/layout1"
         android:layout_width="match_parent"

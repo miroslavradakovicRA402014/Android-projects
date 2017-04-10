@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
 public class MainActivity extends Activity {
 
-    protected Button newTaskButton;
-    protected Button statButton;
+    protected Button   newTaskButton;
+    protected Button   statButton;
+    protected ListView taskList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +19,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         newTaskButton = (Button)findViewById(R.id.newTask);
         statButton = (Button)findViewById(R.id.statistic);
-
+        taskList = (ListView)findViewById(R.id.taskList);
 
         newTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
