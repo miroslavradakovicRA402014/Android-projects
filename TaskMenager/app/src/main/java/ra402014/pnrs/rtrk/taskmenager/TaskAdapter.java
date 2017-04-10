@@ -1,10 +1,15 @@
 package ra402014.pnrs.rtrk.taskmenager;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.annotation.ColorRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,7 +30,7 @@ public class TaskAdapter extends BaseAdapter {
         mTaskItems = ArrayList<TaskItem>();
     }
 
-    public void addTaksItem(TaskItem item) {
+    public void addTaskItem(TaskItem item) {
         mTaskItems.add(item);
         notifyDataSetChanged();
     }
@@ -55,9 +60,13 @@ public class TaskAdapter extends BaseAdapter {
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
             view = inflater.inflate(R.layout.task_element,null);
             ViewHolder holder = new ViewHolder();
+            holder.nameText = (TextView) view.findViewById(R.id.taskNameList);
+            holder.dateText = (TextView) view.findViewById(R.id.taskDate);
+            holder.colorButton (Button) view.findViewById(R.id.taskPriority);
+            holder.completedBox (CheckBox) view.findViewById(R.id.taskComplete);
+            holder.stateButton (RadioButton) view.findViewById(R.id.taskOn);
             view.setTag(holder);
 
         }
@@ -65,11 +74,30 @@ public class TaskAdapter extends BaseAdapter {
         TaskItem item = (TaskItem) getItem(position);
         ViewHolder holder = (ViewHolder) view.getTag();
 
+        holder.colorButton.setClickable(false);
+        if (item.getPriority() == TaskItem.Color.RED) {
+            holder.colorButton.setBackgroundColor(Color.RED);
+        } else if (item.getPriority() == TaskItem.Color.YELLOW) {
+            holder.colorButton.setBackgroundColor(Color.YELLOW);
+        } else {
+            holder.colorButton.setBackgroundColor(Color.GREEN);
+        }
+
+        holder.nameText.setText(item.getTaskName());
+        String dateTxt = item.getDate() + "/" + item.getMonth()+ "/" + item.getYear();
+        holder.dateText.setText(dateTxt);
+        holder.completedBox.setChecked(item.isFinished());
+        holder.stateButton.setChecked(item.isTurned());
+
         return view;
     }
 
     private class ViewHolder {
-
+        public TextView nameText = null;
+        public TextView dateText = null;
+        public Button colorButton = null;
+        public CheckBox completedBox = null;
+        public RadioButton stateButton = null;
 
     }
 

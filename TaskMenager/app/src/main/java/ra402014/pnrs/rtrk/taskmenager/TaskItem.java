@@ -6,36 +6,38 @@ package ra402014.pnrs.rtrk.taskmenager;
 
 public class TaskItem {
 
-    protected enum Color {RED,GREEN,YELLOW};
+    public enum Color {RED,GREEN,YELLOW};
 
-    protected String taskName;
+    protected String name;
     protected int date;
     protected int month;
     protected int year;
     protected int hour;
     protected int minute;
-    protected boolean checked;
+    protected boolean finished;
+    protected boolean turned;
     protected Color priority;
 
 
-    public TaskItem(String taskName,int date,int month,int year,int hour,int minute,boolean checked,Color priority) {
-        this.taskName = taskName;
+    public TaskItem(String taskName,int date,int month,int year,int hour,int minute,boolean finish,boolean turned,Color priority) {
+        this.name = taskName;
         this.date  = date;
         this.month = month;
         this.year  = year;
         this.hour  = hour;
         this.minute = minute;
-        this.checked = checked;
+        this.finished = finish;
+        this.turned = turned;
         this.priority = priority;
     }
 
 
     public String getTaskName() {
-        return taskName;
+        return name;
     }
 
     public void setTaskName(String taskName) {
-        this.taskName = taskName;
+        this.name = taskName;
     }
 
     public int getDate() {
@@ -78,12 +80,20 @@ public class TaskItem {
         this.minute = minute;
     }
 
-    public boolean isChecked() {
-        return checked;
+    public boolean isFinished() {
+        return finished;
     }
 
-    public void setChecked(boolean checked) {
-        this.checked = checked;
+    public void setFinished(boolean finish) {
+        this.finished = finish;
+    }
+
+    public boolean isTurned() {
+        return turned;
+    }
+
+    public void setTurned(boolean turned) {
+        this.turned = turned;
     }
 
     public Color getPriority() { return priority;}

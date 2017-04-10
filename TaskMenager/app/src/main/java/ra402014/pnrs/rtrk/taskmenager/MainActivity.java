@@ -12,14 +12,20 @@ public class MainActivity extends Activity {
     protected Button   newTaskButton;
     protected Button   statButton;
     protected ListView taskList;
+    protected TaskAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        adapter = new TaskAdapter(this);
+
         newTaskButton = (Button)findViewById(R.id.newTask);
         statButton = (Button)findViewById(R.id.statistic);
         taskList = (ListView)findViewById(R.id.taskList);
+
+        taskList.setAdapter(adapter);
 
         newTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
