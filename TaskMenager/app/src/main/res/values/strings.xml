@@ -13,5 +13,9 @@
     <string name="add_task">Add task</string>
     <string name="cnc_taks">Cancel task</string>
     <string name="confirm_taks">Confirm enter</string>
-
+    <string name="save_taks">Save task</string>
+    <string name="delete_taks">Delete task</string>
+    <string name="empty"></string>
+    <string name="list_date">1/1/2018</string>
+    <string name="task_completed">Task completed </string>
 </resources>
