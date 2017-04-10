@@ -27,7 +27,7 @@ public class TaskAdapter extends BaseAdapter {
 
     public TaskAdapter(Context context) {
         mContext = context;
-        mTaskItems = ArrayList<TaskItem>();
+        mTaskItems = new ArrayList<TaskItem>();
     }
 
     public void addTaskItem(TaskItem item) {
@@ -64,9 +64,9 @@ public class TaskAdapter extends BaseAdapter {
             ViewHolder holder = new ViewHolder();
             holder.nameText = (TextView) view.findViewById(R.id.taskNameList);
             holder.dateText = (TextView) view.findViewById(R.id.taskDate);
-            holder.colorButton (Button) view.findViewById(R.id.taskPriority);
-            holder.completedBox (CheckBox) view.findViewById(R.id.taskComplete);
-            holder.stateButton (RadioButton) view.findViewById(R.id.taskOn);
+            holder.colorButton = (Button) view.findViewById(R.id.taskPriority);
+            holder.completedBox = (CheckBox) view.findViewById(R.id.taskComplete);
+            holder.stateButton = (RadioButton) view.findViewById(R.id.taskOn);
             view.setTag(holder);
 
         }
