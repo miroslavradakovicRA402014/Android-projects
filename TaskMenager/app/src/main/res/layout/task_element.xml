@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/task_element"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:id="@+id/itemLayout"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+    >
+
+        <Button
+            android:id="@+id/taskPriority"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/empty"
+            android:layout_marginLeft="0dp"/>
+
+        <TextView
+            android:id="@+id/taskName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textAlignment="gravity"
+            android:gravity="left|center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="@string/task_name"
+            android:textSize="@dimen/text_size" />
+
+    <LinearLayout
+        android:layout_width="150dp"
+        android:id="@+id/itemLayout2"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="right"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/itemLayout3"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/empty" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="gravity"
+                android:gravity="left|center"
+                android:textSize="@dimen/text_size"
+                android:text="@string/list_date" />
+
+
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/task_completed" />
+
+    </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
