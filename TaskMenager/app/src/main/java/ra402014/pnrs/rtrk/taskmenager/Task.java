@@ -184,7 +184,7 @@ public class Task extends Activity {
                       break;
                 }
 
-                if (!nameStr.isEmpty() &&(colorRedPicked || colorYellowPicked || colorGreenPicked) && year > 2016 && ( month >= 1 && month <= 12) && ( date >= 1 && date <= maxDay ) && (hour >= 0 && hour <= 23) && (minute >= 0 && minute <= 59) ) {
+                if (!nameStr.isEmpty() &&(colorRedPicked || colorYellowPicked || colorGreenPicked) && (year > 2016 && year < 2030) && ( month >= 1 && month <= 12) && ( date >= 1 && date <= maxDay ) && (hour >= 0 && hour <= 23) && (minute >= 0 && minute <= 59) ) {
                     addTaskButton.setEnabled(true);
                 }
             }

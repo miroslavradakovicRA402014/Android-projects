@@ -3,6 +3,7 @@ package ra402014.pnrs.rtrk.taskmenager;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
