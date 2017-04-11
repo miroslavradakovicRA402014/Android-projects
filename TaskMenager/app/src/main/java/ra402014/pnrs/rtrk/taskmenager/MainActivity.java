@@ -9,10 +9,11 @@ import android.widget.ListView;
 
 public class MainActivity extends Activity {
 
+    private static final int REQUEST_CODE = 2;
     protected Button   newTaskButton;
     protected Button   statButton;
     protected ListView taskList;
-    protected TaskAdapter adapter;
+    protected static TaskAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(MainActivity.this, Task.class);
-                startActivity(in);
+                startActivityForResult(in,REQUEST_CODE);
 
             }
         });
@@ -44,6 +45,20 @@ public class MainActivity extends Activity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE && requestCode == RESULT_OK) {
+            adapter.notifyDataSetChanged();
+        }
+
+    }
+
+    public static TaskAdapter getTaskAdapter() {
+        return adapter;
     }
 
 }

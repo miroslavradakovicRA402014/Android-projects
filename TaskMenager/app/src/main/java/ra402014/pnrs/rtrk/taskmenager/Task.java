@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 public class Task extends Activity {
@@ -22,6 +23,7 @@ public class Task extends Activity {
     protected EditText hourEdit;
     protected EditText minuteEdit;
     protected EditText taskDescriptionEdit;
+    protected CheckBox reminder;
     protected boolean colorRedPicked;
     protected boolean colorYellowPicked;
     protected boolean colorGreenPicked;
@@ -40,6 +42,8 @@ public class Task extends Activity {
     protected int hour;
     protected int minute;
 
+    protected boolean checked;
+
     protected int maxDay;
 
     @Override
@@ -57,6 +61,8 @@ public class Task extends Activity {
         minuteEdit = (EditText) findViewById(R.id.editTextMinute);
         hourEdit = (EditText) findViewById(R.id.editTextHour);
         taskDescriptionEdit = (EditText) findViewById(R.id.taskDescriptor);
+
+        reminder = (CheckBox) findViewById(R.id.checkBoxReminder);
 
         redButton = (Button) findViewById(R.id.redButton);
         yellowButton = (Button) findViewById(R.id.yellowButton);
@@ -148,6 +154,8 @@ public class Task extends Activity {
                 hourStr = hourEdit.getText().toString();
                 minStr =  minuteEdit.getText().toString();
 
+                checked = reminder.isChecked();
+
                 if (this.isNumber(dateStr) && this.isNumber(monthStr) && this.isNumber(yearStr) && this.isNumber(hourStr) && this.isNumber(minStr)) {
                   date = Integer.parseInt(dateStr);
                   month = Integer.parseInt(monthStr);
@@ -186,8 +194,27 @@ public class Task extends Activity {
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(Task.this, MainActivity.class);
-                startActivity(in);
+
+                TaskItem.Color color;
+                if (colorRedPicked) {
+                    color = TaskItem.Color.RED;
+                } else if (colorYellowPicked){
+                    color = TaskItem.Color.YELLOW;
+                } else {
+                    color = TaskItem.Color.GREEN;
+                }
+
+
+                TaskAdapter adapter = MainActivity.getTaskAdapter();
+                adapter.addTaskItem(new TaskItem(nameStr,date,month,year,hour,minute,false,checked,color));
+
+
+                Intent in = getIntent();
+                in.putExtra("new data",3);
+                setResult(RESULT_OK,in);
+
+                finish();
+
             }
         });
 
