@@ -2,14 +2,14 @@ package ra402014.pnrs.rtrk.taskmenager;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -62,7 +62,7 @@ public class TaskAdapter extends BaseAdapter {
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.task_element,null);
-            ViewHolder holder = new ViewHolder();
+            final ViewHolder holder = new ViewHolder();
             holder.nameText = (TextView) view.findViewById(R.id.taskNameList);
             holder.dateText = (TextView) view.findViewById(R.id.taskDate);
             holder.colorButton = (Button) view.findViewById(R.id.taskPriority);
@@ -72,8 +72,8 @@ public class TaskAdapter extends BaseAdapter {
 
         }
 
-        TaskItem item = (TaskItem) getItem(position);
-        ViewHolder holder = (ViewHolder) view.getTag();
+        final TaskItem item = (TaskItem) getItem(position);
+        final ViewHolder holder = (ViewHolder) view.getTag();
 
         holder.colorButton.setClickable(false);
         if (item.getPriority() == TaskItem.Color.RED) {
@@ -84,12 +84,23 @@ public class TaskAdapter extends BaseAdapter {
             holder.colorButton.setBackgroundColor(Color.GREEN);
         }
 
+        holder.completedBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    holder.nameText.setPaintFlags(holder.nameText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    holder.nameText.setPaintFlags(holder.nameText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                }
+
+            }
+        });
+
         holder.nameText.setText(item.getTaskName());
+
         String dateTxt = item.toString();
         holder.dateText.setText(dateTxt);
 
-        holder.completedBox.setClickable(false);
-        holder.completedBox.setChecked(item.isFinished());
         holder.stateButton.setClickable(false);
         holder.stateButton.setChecked(item.isTurned());
 
