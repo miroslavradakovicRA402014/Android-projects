@@ -1,5 +1,8 @@
 package ra402014.pnrs.rtrk.taskmenager;
 
+import java.util.Calendar;
+
+
 /**
  * Created by mika on 8.4.17..
  */
@@ -30,11 +33,85 @@ public class TaskItem {
         this.priority = priority;
     }
 
-    @Override
-    public String toString() {
-        return date + "/" + month + "/" + year;
+    public boolean isToday(int dateP,int monthP,int yearP) {
+        Calendar rightNow = Calendar.getInstance();
+        long currTime = rightNow.getTimeInMillis();
+        Calendar myDate = Calendar.getInstance();
+        myDate.clear();
+        myDate.set(yearP,monthP-1,dateP,0,1,0);
+
+        long dayTime = myDate.getTimeInMillis();
+
+        if (currTime >= dayTime) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
+    public boolean isTommorow() {
+        Calendar rightNow = Calendar.getInstance();
+        long currTime = rightNow.getTimeInMillis();
+
+        int prevDate = getDate();
+        int prevMonth = getMonth();
+        int prevYear = getYear();
+
+        if (getDate() != 1) {
+            prevDate--;
+        } else {
+            if (getMonth() != 1) {
+                prevMonth--;
+                switch (prevMonth) {
+                    case 1:
+                    case 3:
+                    case 5:
+                    case 7:
+                    case 8:
+                    case 10:
+                    case 12:
+                        prevDate = 31;
+                        break;
+                    case 4:
+                    case 6:
+                    case 9:
+                    case 11:
+                        prevDate = 30;
+                        break;
+                    case 2:
+                        if (((getYear() % 4 == 0) && !(getYear() % 100 == 0)) || (getYear() % 400 == 0)) {
+                            prevDate = 29;
+                        } else {
+                            prevDate = 28;
+                        }
+                        break;
+                }
+            } else {
+                prevDate = 31;
+                prevMonth = 12;
+                prevYear--;
+            }
+        }
+        if (isToday(prevDate,prevMonth,prevYear)) {
+            return true;
+        } else {
+            return false;
+        }
+     }
+
+    @Override
+    public String toString() {
+
+        if (isToday(getDate(),getMonth(),getYear())) {
+            return  "Today";
+        }
+
+        if (isTommorow()) {
+            return  "Tommorow";
+        }
+
+        return date + "/" + month + "/" + year;
+    }
 
     public String getTaskName() {
         return name;
