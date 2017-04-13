@@ -17,5 +17,5 @@
     <string name="delete_taks">Delete task</string>
     <string name="empty"></string>
     <string name="list_date">1/1/2018</string>
-    <string name="task_completed">Task completed </string>
+    <string name="task_completed">Task complet </string>
 </resources>

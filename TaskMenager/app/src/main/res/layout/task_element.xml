@@ -6,10 +6,11 @@
     android:layout_height="wrap_content"
     android:longClickable="true"
     android:clickable="true"
+    android:background="@drawable/custom_border"
     >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:id="@+id/itemLayout"
         android:layout_height="57dp"
         android:orientation="horizontal"
@@ -26,11 +27,11 @@
 
         <TextView
             android:id="@+id/taskNameList"
-            android:layout_width="125dp"
+            android:layout_width="120dp"
             android:layout_height="match_parent"
             android:textAlignment="gravity"
             android:gravity="left|center"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="20dp"
             android:text="@string/task_name"
             android:textSize="@dimen/text_size" />

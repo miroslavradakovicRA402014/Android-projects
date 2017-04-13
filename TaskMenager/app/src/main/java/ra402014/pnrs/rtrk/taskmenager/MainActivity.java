@@ -47,8 +47,8 @@ public class MainActivity extends Activity {
             }
         });
 
-        /*
-        taskList.getOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+
+        taskList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
                 @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view,int position, long id) {
 
@@ -56,11 +56,10 @@ public class MainActivity extends Activity {
                 in.putExtra("update",4);
                 startActivity(in);
 
-                return parent.isPressed();
+                return true;
             }
 
         });
-        */
 
     }
 
