@@ -1,5 +1,6 @@
 package ra402014.pnrs.rtrk.taskmenager;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 
@@ -7,7 +8,8 @@ import java.util.Calendar;
  * Created by mika on 8.4.17..
  */
 
-public class TaskItem {
+public class TaskItem implements Serializable {
+
 
     public enum Color {RED,GREEN,YELLOW};
 

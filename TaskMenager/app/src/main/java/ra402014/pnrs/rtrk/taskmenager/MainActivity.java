@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.io.Serializable;
+
 public class MainActivity extends Activity {
 
     private static final int REQUEST_CODE = 2;
@@ -16,6 +18,7 @@ public class MainActivity extends Activity {
     protected Button   statButton;
     protected ListView taskList;
     protected static TaskAdapter adapter;
+    protected int itemPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +55,11 @@ public class MainActivity extends Activity {
                 @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view,int position, long id) {
 
+                itemPosition = position;
                 Intent in = new Intent(MainActivity.this, Task.class);
-                in.putExtra("update",4);
-                startActivity(in);
-
+                TaskItem item = (TaskItem) adapter.getItem(position);
+                in.putExtra("update", (Serializable) item);
+                startActivityForResult(in,4);
                 return true;
             }
 

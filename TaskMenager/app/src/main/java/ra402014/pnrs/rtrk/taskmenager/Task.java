@@ -46,6 +46,8 @@ public class Task extends Activity {
 
     protected int maxDay;
 
+    protected boolean preview;
+
     //protected int retCode;
 
     @Override
@@ -73,10 +75,52 @@ public class Task extends Activity {
         confirmButton = (Button) findViewById(R.id.confirmTask);
 
         addTaskButton.setEnabled(false);
-        /*
+
         Intent in = getIntent();
-        retCode = in.getIntExtra("update",5);
-        */
+        if (in.hasExtra("update")) {
+
+            preview = true;
+
+            TaskItem item = (TaskItem) in.getSerializableExtra("update");
+
+            addTaskButton.setText("Update");
+            cancelTaskButton.setText("Delete");
+            taskName.setText(item.getTaskName());
+            dateEdit.setText(Integer.toString(item.getDate()));
+            monthEdit.setText(Integer.toString(item.getMonth()));
+            yearEdit.setText(Integer.toString(item.getYear()));
+            hourEdit.setText(Integer.toString(item.getHour()));
+            minuteEdit.setText(Integer.toString(item.getMinute()));
+
+            reminder.setChecked(item.isTurned());
+
+            TaskItem.Color color = item.getPriority();
+
+            if (color == TaskItem.Color.RED) {
+                greenButton.setEnabled(false);
+                greenButton.setAlpha(0.2f);
+                yellowButton.setEnabled(false);
+                yellowButton.setAlpha(0.2f);
+                colorRedPicked = true;
+            } else if (color == TaskItem.Color.YELLOW){
+                redButton.setEnabled(false);
+                redButton.setAlpha(0.2f);
+                greenButton.setEnabled(false);
+                greenButton.setAlpha(0.2f);
+                colorYellowPicked = true;
+            } else {
+                redButton.setEnabled(false);
+                redButton.setAlpha(0.2f);
+                yellowButton.setEnabled(false);
+                yellowButton.setAlpha(0.2f);
+                colorGreenPicked = true;
+            }
+
+
+        } else {
+            preview = false;
+        }
+
         redButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -199,32 +243,41 @@ public class Task extends Activity {
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+            if (!preview) {
+                TaskItem.Color color;
+                if (colorRedPicked) {
+                    color = TaskItem.Color.RED;
+                } else if (colorYellowPicked) {
+                    color = TaskItem.Color.YELLOW;
+                } else {
+                    color = TaskItem.Color.GREEN;
+                }
 
-              TaskItem.Color color;
-              if (colorRedPicked) {
-                  color = TaskItem.Color.RED;
-              } else if (colorYellowPicked) {
-                  color = TaskItem.Color.YELLOW;
-              } else {
-                  color = TaskItem.Color.GREEN;
-              }
+                TaskAdapter adapter = MainActivity.getTaskAdapter();
+                adapter.addTaskItem(new TaskItem(nameStr, date, month, year, hour, minute, false, checked, color));
 
-              TaskAdapter adapter = MainActivity.getTaskAdapter();
-              adapter.addTaskItem(new TaskItem(nameStr, date, month, year, hour, minute, false, checked, color));
+                Intent in = getIntent();
+                in.putExtra("new data", 3);
+                setResult(RESULT_OK, in);
 
-              Intent in = getIntent();
-              in.putExtra("new data", 3);
-              setResult(RESULT_OK, in);
-
-              finish();
+                finish();
+            } else {
+                setResult(4);
+                finish();
+            }
             }
         });
 
         cancelTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(Task.this, MainActivity.class);
-                startActivity(in);
+             if (!preview) {
+                 Intent in = new Intent(Task.this, MainActivity.class);
+                 startActivity(in);
+             } else {
+                 setResult(4);
+                 finish();
+             }
             }
         });
     }
