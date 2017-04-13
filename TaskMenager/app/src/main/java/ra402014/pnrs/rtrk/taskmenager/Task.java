@@ -46,6 +46,8 @@ public class Task extends Activity {
 
     protected int maxDay;
 
+    //protected int retCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +73,10 @@ public class Task extends Activity {
         confirmButton = (Button) findViewById(R.id.confirmTask);
 
         addTaskButton.setEnabled(false);
-
+        /*
+        Intent in = getIntent();
+        retCode = in.getIntExtra("update",5);
+        */
         redButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -195,26 +200,23 @@ public class Task extends Activity {
             @Override
             public void onClick(View v) {
 
-                TaskItem.Color color;
-                if (colorRedPicked) {
-                    color = TaskItem.Color.RED;
-                } else if (colorYellowPicked){
-                    color = TaskItem.Color.YELLOW;
-                } else {
-                    color = TaskItem.Color.GREEN;
-                }
+              TaskItem.Color color;
+              if (colorRedPicked) {
+                  color = TaskItem.Color.RED;
+              } else if (colorYellowPicked) {
+                  color = TaskItem.Color.YELLOW;
+              } else {
+                  color = TaskItem.Color.GREEN;
+              }
 
+              TaskAdapter adapter = MainActivity.getTaskAdapter();
+              adapter.addTaskItem(new TaskItem(nameStr, date, month, year, hour, minute, false, checked, color));
 
-                TaskAdapter adapter = MainActivity.getTaskAdapter();
-                adapter.addTaskItem(new TaskItem(nameStr,date,month,year,hour,minute,false,checked,color));
+              Intent in = getIntent();
+              in.putExtra("new data", 3);
+              setResult(RESULT_OK, in);
 
-
-                Intent in = getIntent();
-                in.putExtra("new data",3);
-                setResult(RESULT_OK,in);
-
-                finish();
-
+              finish();
             }
         });
 

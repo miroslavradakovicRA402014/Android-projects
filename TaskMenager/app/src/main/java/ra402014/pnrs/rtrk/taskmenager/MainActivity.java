@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -45,8 +47,23 @@ public class MainActivity extends Activity {
             }
         });
 
+        /*
+        taskList.getOnItemLongClickListener(new AdapterView.OnItemLongClickListener(){
+                @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view,int position, long id) {
+
+                Intent in = new Intent(MainActivity.this, Task.class);
+                in.putExtra("update",4);
+                startActivity(in);
+
+                return parent.isPressed();
+            }
+
+        });
+        */
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

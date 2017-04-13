@@ -99,8 +99,50 @@ public class TaskItem {
         }
      }
 
+     public int inWeek(int dateP,int monthP,int yearP) {
+         Calendar rightNow = Calendar.getInstance();
+         long currTime = rightNow.getTimeInMillis();
+         Calendar myDate = Calendar.getInstance();
+         myDate.clear();
+         myDate.set(yearP,monthP-1,dateP,0,1,0);
+
+         long dayTime = myDate.getTimeInMillis();
+
+         long diffTime = dayTime - currTime;
+
+          if (diffTime > 0) {
+              long diffDays = diffTime / (1000 * 60 * 60 * 24);
+              if (diffDays <= 7 && !isTommorow()) {
+                  switch (myDate.get(Calendar.DAY_OF_WEEK)) {
+                      case Calendar.MONDAY:
+                          return 1;
+                      case Calendar.TUESDAY:
+                          return 2;
+                      case Calendar.WEDNESDAY:
+                          return 3;
+                      case Calendar.THURSDAY:
+                          return 4;
+                      case Calendar.FRIDAY:
+                          return 5;
+                      case Calendar.SATURDAY:
+                          return 6;
+                      case Calendar.SUNDAY:
+                          return 7;
+                  }
+              } else {
+                  return -1;
+              }
+
+          }
+
+          return -1;
+
+     }
+
     @Override
     public String toString() {
+
+        int dayOfWeek = inWeek(getDate(),getMonth(),getYear());
 
         if (isToday(getDate(),getMonth(),getYear())) {
             return  "Today";
@@ -108,6 +150,26 @@ public class TaskItem {
 
         if (isTommorow()) {
             return  "Tommorow";
+        }
+
+        if ( dayOfWeek != -1) {
+            switch (dayOfWeek) {
+                case 1:
+                    return "Monday";
+                case 2:
+                    return "Tuesday";
+                case 3:
+                    return "Wedenesday";
+                case 4:
+                    return "Thursday";
+                case 5:
+                    return "Friday";
+                case 6:
+                    return "Saturday";
+                case 7:
+                    return "Sunday";
+            }
+
         }
 
         return date + "/" + month + "/" + year;
