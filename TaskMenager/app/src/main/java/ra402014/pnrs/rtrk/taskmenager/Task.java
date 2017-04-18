@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Task extends Activity {
 
@@ -192,6 +193,42 @@ public class Task extends Activity {
                 }
                 return true;
             }
+
+            protected int checkEnter(String name,int date,int maxday,int month,int year,int hour,int minute,boolean red,boolean yellow,boolean green) {
+
+                if (name.isEmpty()) {
+                    return 1;
+                } else if (name.length() > 15) {
+                    return 2;
+                }
+
+                if (date <= 0 || date > maxday) {
+                    return 3;
+                }
+
+                if (month <= 0 || month > 12) {
+                    return 4;
+                }
+
+                if (year < 2017 || year > 2030) {
+                    return 5;
+                }
+
+                if (minute < 0 || minute >= 60) {
+                    return 6;
+                }
+
+                if (hour < 0 && hour > 24) {
+                    return 7;
+                }
+
+                if (!red && !yellow && !green) {
+                    return 8;
+                }
+
+                return 0;
+
+            }
             @Override
             public void onClick(View v) {
 
@@ -233,8 +270,46 @@ public class Task extends Activity {
                       break;
                 }
 
-                if (!nameStr.isEmpty() &&(colorRedPicked || colorYellowPicked || colorGreenPicked) && (year > 2016 && year < 2030) && ( month >= 1 && month <= 12) && ( date >= 1 && date <= maxDay ) && (hour >= 0 && hour <= 23) && (minute >= 0 && minute <= 59) ) {
+                int errorCode = checkEnter(nameStr,date,maxDay,month,year,hour,minute,colorRedPicked,colorYellowPicked,colorGreenPicked);
+                if (errorCode == 0) {
+                    dateEdit.setEnabled(false);
+                    monthEdit.setEnabled(false);
+                    yearEdit.setEnabled(false);
+                    hourEdit.setEnabled(false);
+                    minuteEdit.setEnabled(false);
+                    taskDescriptionEdit.setEnabled(false);
+                    redButton.setEnabled(false);
+                    greenButton.setEnabled(false);
+                    yellowButton.setEnabled(false);
                     addTaskButton.setEnabled(true);
+                } else {
+                    switch (errorCode) {
+                        case 1:
+                            Toast.makeText(getBaseContext(),"Task name is empty!",Toast.LENGTH_LONG).show();
+                            break;
+                        case 2:
+                            Toast.makeText(getBaseContext(),"Task name is too long!",Toast.LENGTH_LONG).show();
+                            break;
+                        case 3:
+                            Toast.makeText(getBaseContext(),"Invalid date!",Toast.LENGTH_LONG).show();
+                            break;
+                        case 4:
+                            Toast.makeText(getBaseContext(),"Invalid dmonth!",Toast.LENGTH_LONG).show();
+                            break;
+                        case 5:
+                            Toast.makeText(getBaseContext(),"Invalid year!",Toast.LENGTH_LONG).show();
+                            break;
+                        case 6:
+                            Toast.makeText(getBaseContext(),"Invalid hour!",Toast.LENGTH_LONG).show();
+                            break;
+                        case 7:
+                            Toast.makeText(getBaseContext(),"Invalid minute!",Toast.LENGTH_LONG).show();
+                            break;
+                        case 8:
+                            Toast.makeText(getBaseContext(),"Pick priority!",Toast.LENGTH_LONG).show();
+                            break;
+                    }
+
                 }
             }
         });
