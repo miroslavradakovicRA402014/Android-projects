@@ -16,8 +16,8 @@ public class Stat extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stat);
         backButton = (Button) findViewById(R.id.backButton);//Charts charts = (Charts) findViewById(R.id.highChart);
-        ChartHigh charts = new ChartHigh(getApplicationContext(), null);
-        //charts.setPercentageHigh((float)32);
+        ChartRed charts = new ChartRed(getApplicationContext(), null);
+
 
 
         backButton.setOnClickListener(new View.OnClickListener() {

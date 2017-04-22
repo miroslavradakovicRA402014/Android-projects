@@ -12,7 +12,7 @@ import android.view.View;
  * Created by mika on 22.4.17..
  */
 
-public class ChartHigh extends View {
+public class ChartRed extends View {
 
     protected Paint paintChartHigh;
     protected Paint paintChartHighBg;
@@ -20,7 +20,7 @@ public class ChartHigh extends View {
 
     protected float percentageHigh = (float)32;
 
-    public ChartHigh(Context context, AttributeSet attrs) {
+    public ChartRed(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         paintChartHigh = new Paint();
