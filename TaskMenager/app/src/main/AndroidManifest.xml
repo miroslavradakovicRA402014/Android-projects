@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Task"
-                  android:screenOrientation="portrait"/>
+            />
         <activity android:name=".Stat"></activity>
     </application>
 
