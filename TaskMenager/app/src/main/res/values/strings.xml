@@ -18,4 +18,6 @@
     <string name="empty"></string>
     <string name="list_date">1/1/2018</string>
     <string name="task_completed">Task complet </string>
+    <string name="back_to_main">Back to main menu </string>
+
 </resources>
