@@ -10,6 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ra402014.pnrs.rtrk.taskmenager.Stat">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,14 +21,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:weightSum="2">
 
     <ra402014.pnrs.rtrk.taskmenager.ChartRed
         android:id="@+id/redChart"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"/>
 
         <TextView
             android:id="@+id/textPriorityH"
@@ -36,21 +39,24 @@
             android:layout_weight="1"
             android:text="@string/high_priority"
             android:textSize="@dimen/text_size"
-            android:textAlignment="center"
-            android:textColor="@color/colorText"/>
+            android:layout_gravity="center"
+            android:textColor="@color/colorText"
+            android:layout_marginBottom="5dp"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:weightSum="2">
 
     <ra402014.pnrs.rtrk.taskmenager.ChartYellow
         android:id="@+id/yellowChart"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"/>
 
         <TextView
             android:id="@+id/textPriorityM"
@@ -59,22 +65,25 @@
             android:layout_weight="1"
             android:text="@string/medium_priority"
             android:textSize="@dimen/text_size"
-            android:textAlignment="center"
-            android:textColor="@color/colorText"/>
+            android:layout_gravity="center"
+            android:textColor="@color/colorText"
+            android:layout_marginBottom="5dp"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:weightSum="2">
 
     <ra402014.pnrs.rtrk.taskmenager.ChartGreen
         android:id="@+id/yellowGreen"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"/>
 
 
         <TextView
@@ -84,10 +93,10 @@
             android:layout_weight="1"
             android:text="@string/low_priority"
             android:textSize="@dimen/text_size"
-            android:textAlignment="center"
-            android:textColor="@color/colorText"/>
+            android:layout_gravity="center"
+            android:textColor="@color/colorText"
+            android:layout_marginBottom="5dp"/>
     </LinearLayout>
-
     </LinearLayout>
 
     <Button
