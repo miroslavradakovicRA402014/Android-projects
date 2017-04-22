@@ -17,14 +17,14 @@ public class ChartYellow extends View {
     protected Paint paintChartMedium;
     protected Paint paintChartBgMedium;
     protected RectF rectMedium;
-
     protected float percentageMedium = (float)10;
+    protected String percentStr;
 
     public ChartYellow(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         paintChartMedium = new Paint();
-        paintChartMedium.setColor(Color.RED);
+        paintChartMedium.setColor(Color.YELLOW);
         paintChartMedium.setAntiAlias(true);
         paintChartMedium.setStyle(Paint.Style.FILL);
 
@@ -34,6 +34,12 @@ public class ChartYellow extends View {
         paintChartBgMedium.setStyle(Paint.Style.FILL);
 
         rectMedium = new RectF();
+
+        percentStr = Float.toString(percentageMedium)+"%";
+
+        paintChartMedium.breakText(percentStr, 0, percentStr.length(), true,100,null);
+        paintChartMedium.setTextAlign(Paint.Align.CENTER);
+        paintChartMedium.setTextSize(12);
     }
 
     @Override

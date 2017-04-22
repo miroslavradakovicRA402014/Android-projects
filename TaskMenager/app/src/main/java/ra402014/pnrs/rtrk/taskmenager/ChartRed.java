@@ -17,23 +17,23 @@ public class ChartRed extends View {
     protected Paint paintChartHigh;
     protected Paint paintChartHighBg;
     protected RectF rectHigh;
-
     protected float percentageHigh = (float)32;
 
     public ChartRed(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        paintChartHighBg = new Paint();
+        paintChartHighBg.setColor(Color.BLUE);
+        paintChartHighBg.setAntiAlias(true);
+        paintChartHighBg.setStyle(Paint.Style.FILL);
 
         paintChartHigh = new Paint();
         paintChartHigh.setColor(Color.RED);
         paintChartHigh.setAntiAlias(true);
         paintChartHigh.setStyle(Paint.Style.FILL);
 
-        paintChartHighBg = new Paint();
-        paintChartHighBg.setColor(Color.BLUE);
-        paintChartHigh.setAntiAlias(true);
-        paintChartHigh.setStyle(Paint.Style.FILL);
-
         rectHigh = new RectF();
+
     }
 
     @Override

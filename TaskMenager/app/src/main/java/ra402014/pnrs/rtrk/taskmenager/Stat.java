@@ -15,9 +15,9 @@ public class Stat extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stat);
-        backButton = (Button) findViewById(R.id.backButton);//Charts charts = (Charts) findViewById(R.id.highChart);
-        ChartRed charts = new ChartRed(getApplicationContext(), null);
-
+        backButton = (Button) findViewById(R.id.backButton);
+        ChartRed chartRed = new ChartRed(getApplicationContext(), null);
+        ChartYellow chartYellow = new ChartYellow(getApplicationContext(), null);
 
 
         backButton.setOnClickListener(new View.OnClickListener() {

@@ -10,10 +10,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ra402014.pnrs.rtrk.taskmenager.Stat">
 
-    <ra402014.pnrs.rtrk.taskmenager.Charts
-        android:id="@+id/highChart"
+    <ra402014.pnrs.rtrk.taskmenager.ChartRed
+        android:id="@+id/redChart"
         android:layout_width="100dp"
         android:layout_height="100dp" />
+
+    <ra402014.pnrs.rtrk.taskmenager.ChartYellow
+        android:id="@+id/yellowChart"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"/>
 
     <Button
         android:id="@+id/backButton"
