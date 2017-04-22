@@ -18,7 +18,7 @@ public class Stat extends Activity {
         backButton = (Button) findViewById(R.id.backButton);
         ChartRed chartRed = new ChartRed(getApplicationContext(), null);
         ChartYellow chartYellow = new ChartYellow(getApplicationContext(), null);
-
+        ChartGreen chartGreen = new ChartGreen(getApplicationContext(), null);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

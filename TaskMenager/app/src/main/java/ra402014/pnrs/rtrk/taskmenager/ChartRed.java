@@ -17,7 +17,7 @@ public class ChartRed extends View {
     protected Paint paintChartHigh;
     protected Paint paintChartHighBg;
     protected RectF rectHigh;
-    protected float percentageHigh = (float)32;
+    protected float percentageHigh = (float)68;
 
     public ChartRed(Context context, AttributeSet attrs) {
         super(context, attrs);

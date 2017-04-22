@@ -17,7 +17,7 @@ public class ChartYellow extends View {
     protected Paint paintChartMedium;
     protected Paint paintChartBgMedium;
     protected RectF rectMedium;
-    protected float percentageMedium = (float)10;
+    protected float percentageMedium = (float)30;
     protected String percentStr;
 
     public ChartYellow(Context context, AttributeSet attrs) {

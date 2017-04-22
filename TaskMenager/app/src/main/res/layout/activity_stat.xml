@@ -21,6 +21,12 @@
         android:layout_height="100dp"
         android:layout_alignParentRight="true"/>
 
+    <ra402014.pnrs.rtrk.taskmenager.ChartGreen
+        android:id="@+id/yellowGreen"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"/>
+
     <Button
         android:id="@+id/backButton"
         android:layout_width="match_parent"

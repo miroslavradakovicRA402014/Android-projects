@@ -17,7 +17,7 @@ public class ChartGreen extends View {
     protected Paint paintChartLow;
     protected Paint paintChartLowBg;
     protected RectF rectLow;
-    protected float percentageLow = (float)32;
+    protected float percentageLow = (float)90;
 
     public ChartGreen(Context context, AttributeSet attrs) {
         super(context, attrs);
