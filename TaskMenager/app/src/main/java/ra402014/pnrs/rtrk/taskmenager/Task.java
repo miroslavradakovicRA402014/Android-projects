@@ -272,6 +272,7 @@ public class Task extends Activity {
 
                 int errorCode = checkEnter(nameStr,date,maxDay,month,year,hour,minute,colorRedPicked,colorYellowPicked,colorGreenPicked);
                 if (errorCode == 0) {
+                    taskName.setEnabled(false);
                     dateEdit.setEnabled(false);
                     monthEdit.setEnabled(false);
                     yearEdit.setEnabled(false);
