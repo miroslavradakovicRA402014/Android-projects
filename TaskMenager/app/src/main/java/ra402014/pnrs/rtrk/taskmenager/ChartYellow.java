@@ -36,10 +36,6 @@ public class ChartYellow extends View {
         rectMedium = new RectF();
 
         percentStr = Float.toString(percentageMedium)+"%";
-
-        paintChartMedium.breakText(percentStr, 0, percentStr.length(), true,100,null);
-        paintChartMedium.setTextAlign(Paint.Align.CENTER);
-        paintChartMedium.setTextSize(12);
     }
 
     @Override
@@ -54,6 +50,14 @@ public class ChartYellow extends View {
         if(percentageMedium!=0) {
             canvas.drawArc(rectMedium, -90, ((float)3.6*percentageMedium), true, paintChartMedium);
         }
+
+        int xPos = (canvas.getWidth() / 2);
+        int yPos = (int) ((canvas.getHeight() / 2) - ((paintChartMedium.descent() + paintChartMedium.ascent()) / 2)) ;
+
+        paintChartMedium.setColor(Color.BLACK);
+        paintChartMedium.setTextAlign(Paint.Align.CENTER);
+        paintChartMedium.setTextSize(50);
+        canvas.drawText(percentStr,xPos,yPos,paintChartMedium);
     }
 
     public void setPercentageMedium(float percentageMedium) {

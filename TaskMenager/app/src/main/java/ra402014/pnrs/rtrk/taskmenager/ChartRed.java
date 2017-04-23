@@ -18,6 +18,7 @@ public class ChartRed extends View {
     protected Paint paintChartHighBg;
     protected RectF rectHigh;
     protected float percentageHigh = (float)68;
+    protected String percentStr;
 
     public ChartRed(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,6 +35,8 @@ public class ChartRed extends View {
 
         rectHigh = new RectF();
 
+        percentStr = Float.toString(percentageHigh)+"%";
+
     }
 
     @Override
@@ -48,6 +51,14 @@ public class ChartRed extends View {
         if(percentageHigh!=0) {
             canvas.drawArc(rectHigh, -90, ((float)3.6*percentageHigh), true, paintChartHigh);
         }
+
+        int xPos = (canvas.getWidth() / 2);
+        int yPos = (int) ((canvas.getHeight() / 2) - ((paintChartHigh.descent() + paintChartHigh.ascent()) / 2)) ;
+
+        paintChartHigh.setColor(Color.BLACK);
+        paintChartHigh.setTextAlign(Paint.Align.CENTER);
+        paintChartHigh.setTextSize(50);
+        canvas.drawText(percentStr,xPos,yPos,paintChartHigh);
     }
 
     public void setPercentageHigh(float percentageHigh) {

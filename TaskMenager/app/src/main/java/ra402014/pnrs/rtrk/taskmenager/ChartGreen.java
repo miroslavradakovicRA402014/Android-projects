@@ -18,6 +18,7 @@ public class ChartGreen extends View {
     protected Paint paintChartLowBg;
     protected RectF rectLow;
     protected float percentageLow = (float)90;
+    protected String percentStr;
 
     public ChartGreen(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,6 +35,7 @@ public class ChartGreen extends View {
 
         rectLow = new RectF();
 
+        percentStr = Float.toString(percentageLow)+"%";
     }
 
     @Override
@@ -48,6 +50,15 @@ public class ChartGreen extends View {
         if(percentageLow!=0) {
             canvas.drawArc(rectLow, -90, ((float)3.6*percentageLow), true, paintChartLow);
         }
+
+        int xPos = (canvas.getWidth() / 2);
+        int yPos = (int) ((canvas.getHeight() / 2) - ((paintChartLow.descent() + paintChartLow.ascent()) / 2)) ;
+
+        paintChartLow.setColor(Color.BLACK);
+        paintChartLow.setTextAlign(Paint.Align.CENTER);
+        paintChartLow.setTextSize(50);
+        canvas.drawText(percentStr,xPos,yPos,paintChartLow);
+
     }
 
     public void setPercentageLow(float percentageLow) {
