@@ -23,15 +23,16 @@ public class ChartYellow extends View {
     public ChartYellow(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        paintChartBgMedium= new Paint();
+        paintChartBgMedium.setColor(Color.parseColor("#FF4587E4"));
+        paintChartBgMedium.setAntiAlias(true);
+        paintChartBgMedium.setStyle(Paint.Style.FILL);
+
+
         paintChartMedium = new Paint();
         paintChartMedium.setColor(Color.YELLOW);
         paintChartMedium.setAntiAlias(true);
         paintChartMedium.setStyle(Paint.Style.FILL);
-
-        paintChartBgMedium= new Paint();
-        paintChartBgMedium.setColor(Color.BLUE);
-        paintChartBgMedium.setAntiAlias(true);
-        paintChartBgMedium.setStyle(Paint.Style.FILL);
 
         rectMedium = new RectF();
 

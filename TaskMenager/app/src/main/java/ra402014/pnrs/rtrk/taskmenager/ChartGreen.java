@@ -24,7 +24,7 @@ public class ChartGreen extends View {
         super(context, attrs);
 
         paintChartLowBg = new Paint();
-        paintChartLowBg.setColor(Color.BLUE);
+        paintChartLowBg.setColor(Color.parseColor("#FF4587E4"));
         paintChartLowBg.setAntiAlias(true);
         paintChartLowBg.setStyle(Paint.Style.FILL);
 

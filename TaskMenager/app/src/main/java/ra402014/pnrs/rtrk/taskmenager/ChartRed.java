@@ -24,7 +24,7 @@ public class ChartRed extends View {
         super(context, attrs);
 
         paintChartHighBg = new Paint();
-        paintChartHighBg.setColor(Color.BLUE);
+        paintChartHighBg.setColor(Color.parseColor("#FF4587E4"));
         paintChartHighBg.setAntiAlias(true);
         paintChartHighBg.setStyle(Paint.Style.FILL);
 
