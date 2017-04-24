@@ -17,8 +17,9 @@ public class ChartRed extends View {
     protected Paint paintChartHigh;
     protected Paint paintChartHighBg;
     protected RectF rectHigh;
-    protected float percentageHigh = (float)68;
+    protected float percentageHigh = (float)0;
     protected String percentStr;
+    protected boolean drawFlag;
 
     public ChartRed(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -37,6 +38,8 @@ public class ChartRed extends View {
 
         percentStr = Float.toString(percentageHigh)+"%";
 
+        drawFlag = true;
+
     }
 
     @Override
@@ -49,6 +52,10 @@ public class ChartRed extends View {
         rectHigh.set(left, top, left+width, top + width);
         canvas.drawArc(rectHigh, -90, 360, true, paintChartHighBg);
         if(percentageHigh!=0) {
+            paintChartHigh = new Paint();
+            paintChartHigh.setColor(Color.RED);
+            paintChartHigh.setAntiAlias(true);
+            paintChartHigh.setStyle(Paint.Style.FILL);
             canvas.drawArc(rectHigh, -90, ((float)3.6*percentageHigh), true, paintChartHigh);
         }
 
@@ -59,10 +66,19 @@ public class ChartRed extends View {
         paintChartHigh.setTextAlign(Paint.Align.CENTER);
         paintChartHigh.setTextSize(50);
         canvas.drawText(percentStr,xPos,yPos,paintChartHigh);
+
+        if (drawFlag == true) {
+            setPercentageHigh((float)(percentageHigh + 1));
+        }
     }
 
     public void setPercentageHigh(float percentageHigh) {
-        this.percentageHigh = percentageHigh;
-        invalidate();
+        if (68 > this.percentageHigh) {
+            this.percentageHigh = percentageHigh;
+            percentStr = Float.toString(this.percentageHigh)+"%";
+            invalidate();
+        } else {
+            drawFlag = false;
+        }
     }
 }

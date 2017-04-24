@@ -15,18 +15,19 @@ import android.view.View;
 public class ChartYellow extends View {
 
     protected Paint paintChartMedium;
-    protected Paint paintChartBgMedium;
+    protected Paint paintChartMediumBg;
     protected RectF rectMedium;
-    protected float percentageMedium = (float)30;
+    protected float percentageMedium = (float)0;
     protected String percentStr;
+    protected boolean drawFlag;
 
     public ChartYellow(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        paintChartBgMedium= new Paint();
-        paintChartBgMedium.setColor(Color.parseColor("#FF4587E4"));
-        paintChartBgMedium.setAntiAlias(true);
-        paintChartBgMedium.setStyle(Paint.Style.FILL);
+        paintChartMediumBg= new Paint();
+        paintChartMediumBg.setColor(Color.parseColor("#FF4587E4"));
+        paintChartMediumBg.setAntiAlias(true);
+        paintChartMediumBg.setStyle(Paint.Style.FILL);
 
 
         paintChartMedium = new Paint();
@@ -37,6 +38,8 @@ public class ChartYellow extends View {
         rectMedium = new RectF();
 
         percentStr = Float.toString(percentageMedium)+"%";
+
+        drawFlag = true;
     }
 
     @Override
@@ -47,8 +50,12 @@ public class ChartYellow extends View {
         int width = getWidth();
         int top = 0;
         rectMedium.set(left, top, left+width, top + width);
-        canvas.drawArc(rectMedium, -90, 360, true, paintChartBgMedium);
+        canvas.drawArc(rectMedium, -90, 360, true, paintChartMediumBg);
         if(percentageMedium!=0) {
+            paintChartMedium = new Paint();
+            paintChartMedium.setColor(Color.YELLOW);
+            paintChartMedium.setAntiAlias(true);
+            paintChartMedium.setStyle(Paint.Style.FILL);
             canvas.drawArc(rectMedium, -90, ((float)3.6*percentageMedium), true, paintChartMedium);
         }
 
@@ -59,10 +66,20 @@ public class ChartYellow extends View {
         paintChartMedium.setTextAlign(Paint.Align.CENTER);
         paintChartMedium.setTextSize(50);
         canvas.drawText(percentStr,xPos,yPos,paintChartMedium);
+
+        if (drawFlag == true) {
+            setPercentageMedium((float)(percentageMedium + 1));
+        }
     }
 
     public void setPercentageMedium(float percentageMedium) {
-        this.percentageMedium = percentageMedium;
-        invalidate();
+
+         if (30 > this.percentageMedium) {
+             this.percentageMedium = percentageMedium;
+             percentStr = Float.toString(this.percentageMedium)+"%";
+             invalidate();
+         } else {
+             drawFlag = false;
+         }
     }
 }

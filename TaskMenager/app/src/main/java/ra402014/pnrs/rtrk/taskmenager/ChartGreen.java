@@ -17,8 +17,9 @@ public class ChartGreen extends View {
     protected Paint paintChartLow;
     protected Paint paintChartLowBg;
     protected RectF rectLow;
-    protected float percentageLow = (float)90;
+    protected float percentageLow = (float)0;
     protected String percentStr;
+    protected boolean drawFlag;
 
     public ChartGreen(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -36,6 +37,8 @@ public class ChartGreen extends View {
         rectLow = new RectF();
 
         percentStr = Float.toString(percentageLow)+"%";
+
+        drawFlag = true;
     }
 
     @Override
@@ -48,6 +51,10 @@ public class ChartGreen extends View {
         rectLow.set(left, top, left+width, top + width);
         canvas.drawArc(rectLow, -90, 360, true, paintChartLowBg);
         if(percentageLow!=0) {
+            paintChartLow = new Paint();
+            paintChartLow.setColor(Color.GREEN);
+            paintChartLow.setAntiAlias(true);
+            paintChartLow.setStyle(Paint.Style.FILL);
             canvas.drawArc(rectLow, -90, ((float)3.6*percentageLow), true, paintChartLow);
         }
 
@@ -59,10 +66,19 @@ public class ChartGreen extends View {
         paintChartLow.setTextSize(50);
         canvas.drawText(percentStr,xPos,yPos,paintChartLow);
 
+        if (drawFlag == true) {
+            setPercentageLow((float)(percentageLow + 1));
+        }
+
     }
 
     public void setPercentageLow(float percentageLow) {
-        this.percentageLow = percentageLow;
-        invalidate();
+        if (90 > this.percentageLow) {
+            this.percentageLow = percentageLow;
+            percentStr = Float.toString(this.percentageLow)+"%";
+            invalidate();
+        } else {
+            drawFlag = false;
+        }
     }
 }
