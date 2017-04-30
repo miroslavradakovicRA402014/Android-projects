@@ -23,8 +23,10 @@ public class Stat extends Activity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(Stat.this,MainActivity.class);
-                startActivity(in);
+                Intent in = getIntent();
+                in.putExtra("new data", 3);
+                setResult(RESULT_OK, in);
+                finish();
             }
         });
     }

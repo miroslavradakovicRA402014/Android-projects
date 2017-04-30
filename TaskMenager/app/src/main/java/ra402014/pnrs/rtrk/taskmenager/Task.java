@@ -50,8 +50,6 @@ public class Task extends Activity {
 
     protected boolean preview;
 
-    //protected int retCode;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -339,7 +337,6 @@ public class Task extends Activity {
                 Intent in = getIntent();
                 in.putExtra("new data", 3);
                 setResult(RESULT_OK, in);
-
                 finish();
             } else {
                 setResult(4);
