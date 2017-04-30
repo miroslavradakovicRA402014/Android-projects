@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 public class MainActivity extends Activity {
 
-    private static final int REQUEST_CODE = 2;
+    private static final int REQUEST_CODE_LIST = 2;
     protected Button   newTaskButton;
     protected Button   statButton;
     protected ListView taskList;
@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(MainActivity.this, Task.class);
-                startActivityForResult(in,REQUEST_CODE);
+                startActivityForResult(in,REQUEST_CODE_LIST);
 
             }
         });
@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_CODE && requestCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_LIST && resultCode == RESULT_OK) {
             adapter.notifyDataSetChanged();
         }
 

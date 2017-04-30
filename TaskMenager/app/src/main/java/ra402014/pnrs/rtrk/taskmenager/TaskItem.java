@@ -10,10 +10,10 @@ import java.util.Calendar;
 
 public class TaskItem implements Serializable {
 
-
     public enum Color {RED,GREEN,YELLOW};
 
     protected String name;
+    protected String description;
     protected int date;
     protected int month;
     protected int year;
@@ -23,8 +23,9 @@ public class TaskItem implements Serializable {
     protected boolean turned;
     protected Color priority;
 
-    public TaskItem(String taskName, int date, int month, int year, int hour, int minute, boolean finish, boolean turned, Color priority) {
+    public TaskItem(String taskName,String description, int date, int month, int year, int hour, int minute, boolean finish, boolean turned, Color priority) {
         this.name = taskName;
+        this.description = description;
         this.date  = date;
         this.month = month;
         this.year  = year;
@@ -244,5 +245,9 @@ public class TaskItem implements Serializable {
     public Color getPriority() { return priority;}
 
     public void setPriority(Color priority) { this.priority = priority;}
+
+    public String getDescription() {return description;}
+
+    public void setDescription(String description) {this.description = description;}
 
 }

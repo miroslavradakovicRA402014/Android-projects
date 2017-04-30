@@ -30,6 +30,7 @@ public class Task extends Activity {
     protected boolean colorGreenPicked;
 
     protected String nameStr;
+    protected String descStr;
 
     protected String dateStr;
     protected String monthStr;
@@ -92,6 +93,7 @@ public class Task extends Activity {
             yearEdit.setText(Integer.toString(item.getYear()));
             hourEdit.setText(Integer.toString(item.getHour()));
             minuteEdit.setText(Integer.toString(item.getMinute()));
+            taskDescriptionEdit.setText(item.getDescription());
 
             reminder.setChecked(item.isTurned());
 
@@ -233,6 +235,7 @@ public class Task extends Activity {
             public void onClick(View v) {
 
                 nameStr = taskName.getText().toString();
+                descStr = taskDescriptionEdit.getText().toString();;
 
                 dateStr = dateEdit.getText().toString();
                 monthStr = monthEdit.getText().toString();
@@ -283,6 +286,7 @@ public class Task extends Activity {
                     greenButton.setEnabled(false);
                     yellowButton.setEnabled(false);
                     addTaskButton.setEnabled(true);
+                    reminder.setEnabled(false);
                 } else {
                     switch (errorCode) {
                         case 1:
@@ -330,7 +334,7 @@ public class Task extends Activity {
                 }
 
                 TaskAdapter adapter = MainActivity.getTaskAdapter();
-                adapter.addTaskItem(new TaskItem(nameStr, date, month, year, hour, minute, false, checked, color));
+                adapter.addTaskItem(new TaskItem(nameStr,descStr, date, month, year, hour, minute, false, checked, color));
 
                 Intent in = getIntent();
                 in.putExtra("new data", 3);
