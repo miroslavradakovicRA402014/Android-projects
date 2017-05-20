@@ -402,6 +402,7 @@ public class Task extends Activity {
                 finish();
             }
             try {
+                bindService(serviceInt, serviceConnection, BIND_AUTO_CREATE);
                 iTaskBinder.setValue(1);
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -417,6 +418,7 @@ public class Task extends Activity {
                  startActivity(in);
              } else {
                  try {
+                     bindService(serviceInt, serviceConnection, BIND_AUTO_CREATE);
                      iTaskBinder.setValue(2);
                  } catch (RemoteException e) {
                      e.printStackTrace();
