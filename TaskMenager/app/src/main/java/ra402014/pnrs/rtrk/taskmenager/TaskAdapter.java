@@ -107,6 +107,10 @@ public class TaskAdapter extends BaseAdapter {
         return view;
     }
 
+    public ArrayList<TaskItem> getmTaskItems() {
+        return mTaskItems;
+    }
+
     private class ViewHolder {
         public TextView nameText = null;
         public TextView dateText = null;

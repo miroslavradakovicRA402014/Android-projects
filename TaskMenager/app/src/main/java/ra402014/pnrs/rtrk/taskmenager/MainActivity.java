@@ -1,8 +1,13 @@
 package ra402014.pnrs.rtrk.taskmenager;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -19,6 +24,7 @@ public class MainActivity extends Activity {
     protected ListView taskList;
     protected static TaskAdapter adapter;
     protected int itemPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,13 +1,20 @@
 package ra402014.pnrs.rtrk.taskmenager;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.Serializable;
 
 public class Task extends Activity {
 
@@ -50,6 +57,41 @@ public class Task extends Activity {
 
     protected boolean preview;
 
+
+    private ITaskBinder iTaskBinder = new ITaskBinder() {
+        @Override
+        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+
+        }
+
+        @Override
+        public int getValue() throws RemoteException {
+            return 0;
+        }
+
+        @Override
+        public void setValue(int op) throws RemoteException {
+
+        }
+
+        @Override
+        public IBinder asBinder() {
+            return null;
+        }
+    };
+
+    protected ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            iTaskBinder = ITaskBinder.Stub.asInterface(service);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +117,8 @@ public class Task extends Activity {
         confirmButton = (Button) findViewById(R.id.confirmTask);
 
         addTaskButton.setEnabled(false);
+
+        final Intent serviceInt = new Intent(this,TaskService.class);
 
         Intent in = getIntent();
         if (in.hasExtra("update")) {
@@ -115,6 +159,12 @@ public class Task extends Activity {
                 yellowButton.setEnabled(false);
                 yellowButton.setAlpha(0.2f);
                 colorGreenPicked = true;
+            }
+
+            try {
+                iTaskBinder.setValue(3);
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
 
 
@@ -314,7 +364,9 @@ public class Task extends Activity {
                     }
 
                 }
+
             }
+
         });
 
 
@@ -332,7 +384,14 @@ public class Task extends Activity {
                 }
 
                 TaskAdapter adapter = MainActivity.getTaskAdapter();
-                adapter.addTaskItem(new TaskItem(nameStr,descStr, date, month, year, hour, minute, false, checked, color));
+                TaskItem item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, false, checked, color);
+                adapter.addTaskItem(item);
+
+
+                if (item.isTurned()) {
+                    serviceInt.putExtra("service", (Serializable) item);
+                    bindService(serviceInt, serviceConnection, BIND_AUTO_CREATE);
+                }
 
                 Intent in = getIntent();
                 in.putExtra("new data", 3);
@@ -341,6 +400,11 @@ public class Task extends Activity {
             } else {
                 setResult(4);
                 finish();
+            }
+            try {
+                iTaskBinder.setValue(1);
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
             }
         });
@@ -352,6 +416,11 @@ public class Task extends Activity {
                  Intent in = new Intent(Task.this, MainActivity.class);
                  startActivity(in);
              } else {
+                 try {
+                     iTaskBinder.setValue(2);
+                 } catch (RemoteException e) {
+                     e.printStackTrace();
+                 }
                  setResult(4);
                  finish();
              }
