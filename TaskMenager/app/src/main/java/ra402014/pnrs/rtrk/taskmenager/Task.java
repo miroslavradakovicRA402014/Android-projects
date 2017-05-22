@@ -18,6 +18,9 @@ import java.io.Serializable;
 
 public class Task extends Activity {
 
+    private static final int RESULT_OK_UPDATE = 5;
+    private static final int RESULT_OK_DELETE = 6;
+
     protected Button addTaskButton;
     protected Button cancelTaskButton;
     protected Button redButton;
@@ -57,41 +60,6 @@ public class Task extends Activity {
 
     protected boolean preview;
 
-
-    private ITaskBinder iTaskBinder = new ITaskBinder() {
-        @Override
-        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
-
-        }
-
-        @Override
-        public int getValue() throws RemoteException {
-            return 0;
-        }
-
-        @Override
-        public void setValue(int op) throws RemoteException {
-
-        }
-
-        @Override
-        public IBinder asBinder() {
-            return null;
-        }
-    };
-
-    protected ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            iTaskBinder = ITaskBinder.Stub.asInterface(service);
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,8 +85,6 @@ public class Task extends Activity {
         confirmButton = (Button) findViewById(R.id.confirmTask);
 
         addTaskButton.setEnabled(false);
-
-        final Intent serviceInt = new Intent(this,TaskService.class);
 
         Intent in = getIntent();
         if (in.hasExtra("update")) {
@@ -160,13 +126,6 @@ public class Task extends Activity {
                 yellowButton.setAlpha(0.2f);
                 colorGreenPicked = true;
             }
-
-            try {
-                iTaskBinder.setValue(3);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-
 
         } else {
             preview = false;
@@ -387,25 +346,13 @@ public class Task extends Activity {
                 TaskItem item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, false, checked, color);
                 adapter.addTaskItem(item);
 
-
-                if (item.isTurned()) {
-                    serviceInt.putExtra("service", (Serializable) item);
-                    bindService(serviceInt, serviceConnection, BIND_AUTO_CREATE);
-                }
-
                 Intent in = getIntent();
                 in.putExtra("new data", 3);
                 setResult(RESULT_OK, in);
                 finish();
             } else {
-                setResult(4);
+                setResult(RESULT_OK_UPDATE);
                 finish();
-            }
-            try {
-                bindService(serviceInt, serviceConnection, BIND_AUTO_CREATE);
-                iTaskBinder.setValue(1);
-            } catch (RemoteException e) {
-                e.printStackTrace();
             }
             }
         });
@@ -417,13 +364,7 @@ public class Task extends Activity {
                  Intent in = new Intent(Task.this, MainActivity.class);
                  startActivity(in);
              } else {
-                 try {
-                     bindService(serviceInt, serviceConnection, BIND_AUTO_CREATE);
-                     iTaskBinder.setValue(2);
-                 } catch (RemoteException e) {
-                     e.printStackTrace();
-                 }
-                 setResult(4);
+                 setResult(RESULT_OK_DELETE);
                  finish();
              }
             }

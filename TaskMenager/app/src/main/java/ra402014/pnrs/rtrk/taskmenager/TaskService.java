@@ -9,10 +9,10 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import java.util.ArrayList;
 
-import java.io.Serializable;
 
 /**
  * Created by mika on 20.5.17..
@@ -21,12 +21,12 @@ import java.io.Serializable;
 public class TaskService extends Service {
 
 
-    protected TaskBinder binder = new TaskBinder();
+    protected TaskBinder binder;
     protected static final long PERIOD = 60000L;
     protected ServiceThread mRunnable;
     protected ArrayList<TaskItem> mTaskItems;
-    protected TaskItem newItem;
-
+    protected TaskItem item;
+    protected NotificationCompat.Builder builder;
     public TaskService() {
 
 
@@ -37,6 +37,12 @@ public class TaskService extends Service {
         super.onCreate();
         mRunnable = new ServiceThread();
         mRunnable.start();
+        binder = new TaskBinder(getApplicationContext());
+        mTaskItems = MainActivity.getTaskAdapter().getmTaskItems();
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext()).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Service created");
+        NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
     }
 
     @Override
@@ -45,47 +51,18 @@ public class TaskService extends Service {
         mRunnable.exit();
     }
 
+    void buildNotification(String taskName) {
+        builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Task will be"+taskName+"timeouted in 15 minutes");
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        newItem = (TaskItem) intent.getSerializableExtra("service");
-        int op = 0;
-
-        try {
-            op = binder.getValue();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        if (op == 1) {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Task added");
-            Intent notificationIntent = new Intent(this,MainActivity.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(contentIntent);
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-            mTaskItems.add(newItem);
-        } else if (op == 2) {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Task deleted");
-            Intent notificationIntent = new Intent(this, MainActivity.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(contentIntent);
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        } else {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Task updated");
-            Intent notificationIntent = new Intent(this, MainActivity.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentIntent(contentIntent);
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        }
-
-
         return binder;
+    }
+    @Override
+    public boolean onUnbind(Intent intent) {
+        return super.onUnbind(intent);
     }
 
     private class ServiceThread extends Thread {
@@ -104,19 +81,16 @@ public class TaskService extends Service {
 
 
         public boolean isRemind(TaskItem item) {
-            return false;
+            return item.isRemindTime(item.getDate(),item.getMonth(),item.getYear());
         }
         @Override
         public void run() {
            while (mRun) {
                for (TaskItem item : mTaskItems) {
                    if (isRemind(item)) {
-                       // NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Task will be timedout in 15 minutes");
-                       //Intent notificationIntent = new Intent(this,MainActivity.class);
-                       //PendingIntent contentIntent = PendingIntent.getActivity(ServiceThread.class, 0, notificationIntent,
-                       //        PendingIntent.FLAG_UPDATE_CURRENT);
-                       //builder.setContentIntent(contentIntent);
-                       //NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                       buildNotification(item.getTaskName());
+                       NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                       manager.notify(4, builder.build());
                    }
                }
                try {

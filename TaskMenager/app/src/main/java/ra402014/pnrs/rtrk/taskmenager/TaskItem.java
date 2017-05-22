@@ -141,6 +141,33 @@ public class TaskItem implements Serializable {
           return -1;
 
      }
+    public boolean isRemindTime(int dateP,int monthP,int yearP) {
+
+        if (!isTurned()) {
+            return false;
+        }
+
+        Calendar rightNow = Calendar.getInstance();
+        long currTime = rightNow.getTimeInMillis();
+        Calendar myDate = Calendar.getInstance();
+        myDate.clear();
+        myDate.set(yearP,monthP-1,dateP,0,1,0);
+
+        long dayTime = myDate.getTimeInMillis();
+
+        long diffTime = dayTime - currTime;
+
+        if (diffTime > 0) {
+            long diffMinutes = diffTime / (1000 * 60);
+            if (diffMinutes == 15) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return false;
+    }
 
     @Override
     public String toString() {

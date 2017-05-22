@@ -17,6 +17,10 @@
         </activity>
         <activity android:name=".Task" />
         <activity android:name=".Stat" android:screenOrientation="portrait"/>
+        <service
+            android:name=".TaskService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

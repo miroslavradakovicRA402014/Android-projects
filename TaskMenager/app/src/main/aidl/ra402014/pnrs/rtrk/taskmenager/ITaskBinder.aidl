@@ -8,9 +8,11 @@ interface ITaskBinder {
      * Demonstrates some basic types that you can use as parameters
      * and return values in AIDL.
      */
-    int getValue();
-    void setValue(int op);
-
     void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat,
             double aDouble, String aString);
+
+
+    void addTaskNotify(String taskName);
+    void updateTaskNotify(String taskName);
+    void deleteTaskNotify(String taskName);
 }
