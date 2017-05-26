@@ -141,7 +141,7 @@ public class TaskItem implements Serializable {
           return -1;
 
      }
-    public boolean isRemindTime(int dateP,int monthP,int yearP) {
+    public boolean isRemindTime(int dateP,int monthP,int yearP,int houP,int minP ) {
 
         if (!isTurned()) {
             return false;
@@ -151,7 +151,7 @@ public class TaskItem implements Serializable {
         long currTime = rightNow.getTimeInMillis();
         Calendar myDate = Calendar.getInstance();
         myDate.clear();
-        myDate.set(yearP,monthP-1,dateP,0,1,0);
+        myDate.set(yearP,monthP-1,dateP,houP,minP,0);
 
         long dayTime = myDate.getTimeInMillis();
 
@@ -159,7 +159,7 @@ public class TaskItem implements Serializable {
 
         if (diffTime > 0) {
             long diffMinutes = diffTime / (1000 * 60);
-            if (diffMinutes == 15) {
+            if (diffMinutes == 1) {
                 return true;
             } else {
                 return false;
@@ -167,6 +167,7 @@ public class TaskItem implements Serializable {
         }
 
         return false;
+
     }
 
     @Override
@@ -203,6 +204,21 @@ public class TaskItem implements Serializable {
         }
 
         return date + "/" + month + "/" + year;
+    }
+    public int getTaskPriorityInt() {
+
+        int retVal = 0;
+
+        switch (this.getPriority()) {
+            case RED:
+                retVal = 2;
+            case YELLOW:
+                retVal =  1;
+            case GREEN:
+                retVal =  0;
+        }
+
+        return retVal;
     }
 
     public String getTaskName() {

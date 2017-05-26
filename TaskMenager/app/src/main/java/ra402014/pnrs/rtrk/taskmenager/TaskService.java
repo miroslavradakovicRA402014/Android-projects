@@ -1,5 +1,7 @@
 package ra402014.pnrs.rtrk.taskmenager;
 
+import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -26,33 +28,41 @@ public class TaskService extends Service {
     protected ServiceThread mRunnable;
     protected ArrayList<TaskItem> mTaskItems;
     protected TaskItem item;
-    protected NotificationCompat.Builder builder;
+    protected Notification.Builder builder;
+    protected NotificationManager manager;
     public TaskService() {
 
 
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onCreate() {
         super.onCreate();
         mRunnable = new ServiceThread();
         mRunnable.start();
         binder = new TaskBinder(getApplicationContext());
-        mTaskItems = MainActivity.getTaskAdapter().getmTaskItems();
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext()).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Service created");
-        NotificationManager manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+/*
+        Notification.Builder builder = new Notification.Builder(getApplicationContext()).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Service created");
+        manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(0, builder.build());
+*/
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mRunnable.exit();
+/*
+        Notification.Builder builder = new Notification.Builder(getApplicationContext()).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Service destroyed");
+        manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
+*/
     }
 
-    void buildNotification(String taskName) {
-        builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Task will be"+taskName+"timeouted in 15 minutes");
+    void buildNotification(String taskName,int hour,int min) {
+        builder = new Notification.Builder(this).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Task "+taskName+" will be timeouted in 15  at "+hour+":"+"minute");
+        manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Nullable
@@ -67,7 +77,11 @@ public class TaskService extends Service {
 
     private class ServiceThread extends Thread {
 
-        private boolean mRun = true;
+        private boolean mRun;
+
+        private ServiceThread() {
+            mRun = false;
+        }
 
         @Override
         public synchronized void start() {
@@ -81,15 +95,16 @@ public class TaskService extends Service {
 
 
         public boolean isRemind(TaskItem item) {
-            return item.isRemindTime(item.getDate(),item.getMonth(),item.getYear());
+            return item.isRemindTime(item.getDate(),item.getMonth(),item.getYear(),item.getHour(),item.getMinute());
         }
+
         @Override
         public void run() {
            while (mRun) {
+               mTaskItems = MainActivity.getTaskAdapter().getmTaskItems();
                for (TaskItem item : mTaskItems) {
                    if (isRemind(item)) {
-                       buildNotification(item.getTaskName());
-                       NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                       buildNotification(item.getTaskName(),item.getHour(),item.getMinute());
                        manager.notify(4, builder.build());
                    }
                }

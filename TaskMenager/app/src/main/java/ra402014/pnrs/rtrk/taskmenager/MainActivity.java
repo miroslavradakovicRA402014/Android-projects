@@ -35,33 +35,9 @@ public class MainActivity extends Activity {
     protected static TaskAdapter adapter;
     protected int itemPosition;
     protected ServiceConnection serviceConnection;
-
-    final Intent serviceInt = new Intent(MainActivity.this,TaskService.class);
-
-    private ITaskBinder iTaskBinder = new ITaskBinder() {
-        @Override
-        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
-
-        }
-        @Override
-        public void addTaskNotify(String taskName) throws RemoteException {
-
-        }
-        @Override
-        public void updateTaskNotify(String taskName) throws RemoteException {
-
-        }
-        @Override
-        public void deleteTaskNotify(String taskName) throws RemoteException {
-
-        }
-
-        @Override
-        public IBinder asBinder() {
-            return null;
-        }
-    };
-
+    private ITaskBinder iTaskBinder;
+    protected Intent serviceInt;
+    protected TaskDBHelper dbHelper;
 
 
     @Override
@@ -70,6 +46,30 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        iTaskBinder = new ITaskBinder() {
+            @Override
+            public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+
+            }
+            @Override
+            public void addTaskNotify(String taskName) throws RemoteException {
+
+            }
+            @Override
+            public void updateTaskNotify(String taskName) throws RemoteException {
+
+            }
+            @Override
+            public void deleteTaskNotify(String taskName) throws RemoteException {
+
+            }
+
+            @Override
+            public IBinder asBinder() {
+                return null;
+            }
+        };
+
         adapter = new TaskAdapter(this);
 
         newTaskButton = (Button)findViewById(R.id.newTask);
@@ -77,6 +77,8 @@ public class MainActivity extends Activity {
         taskList = (ListView)findViewById(R.id.taskList);
 
         taskList.setAdapter(adapter);
+
+        dbHelper = new TaskDBHelper(this);
 
         serviceConnection = new ServiceConnection() {
             @Override
@@ -89,6 +91,8 @@ public class MainActivity extends Activity {
 
             }
         };
+
+        serviceInt = new Intent(MainActivity.this,TaskService.class);
 
         bindService(serviceInt, serviceConnection, Context.BIND_AUTO_CREATE);
 
@@ -123,15 +127,7 @@ public class MainActivity extends Activity {
             }
 
         });
-/*
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Created");
-        Intent notificationIntent = new Intent(this,MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(contentIntent);
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0, builder.build());
-*/
+
     }
 
 
@@ -143,30 +139,33 @@ public class MainActivity extends Activity {
             adapter.notifyDataSetChanged();
 
             try {
-                iTaskBinder.addTaskNotify("Added task");
+                iTaskBinder.addTaskNotify(" ");
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
 
         } else if (requestCode == REQUEST_CODE_UPDATE && resultCode == RESULT_OK_UPDATE) {
 
-            //TaskItem item = (TaskItem) data.getSerializableExtra(getString(R.string.));
-
             try {
-                iTaskBinder.updateTaskNotify("Updating task");
+                iTaskBinder.updateTaskNotify(" ");
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-
         } else if (requestCode == REQUEST_CODE_UPDATE && resultCode == RESULT_OK_DELETE) {
 
             try {
-                iTaskBinder.deleteTaskNotify("Deleted task");
+                iTaskBinder.deleteTaskNotify(" ");
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(serviceConnection);
     }
 
     public static TaskAdapter getTaskAdapter() {
