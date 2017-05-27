@@ -39,6 +39,7 @@ public class TaskAdapter extends BaseAdapter {
     public int getCount() {
         return mTaskItems.size();
     }
+
     @Override
     public Object getItem(int position) {
         Object retVal = null;
@@ -48,6 +49,16 @@ public class TaskAdapter extends BaseAdapter {
             e.printStackTrace();
         }
         return retVal;
+    }
+
+    public void updateAdapter(TaskItem[] items) {
+        mTaskItems.clear();
+        if (items != null) {
+            for (TaskItem item:items) {
+                mTaskItems.add(item);
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @Override

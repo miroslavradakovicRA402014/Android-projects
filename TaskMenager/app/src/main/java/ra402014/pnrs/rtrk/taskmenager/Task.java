@@ -38,27 +38,24 @@ public class Task extends Activity {
     protected boolean colorRedPicked;
     protected boolean colorYellowPicked;
     protected boolean colorGreenPicked;
-
     protected String nameStr;
     protected String descStr;
-
     protected String dateStr;
     protected String monthStr;
     protected String yearStr;
     protected String hourStr;
     protected String minStr;
-
     protected int date;
     protected int month;
     protected int year;
     protected int hour;
     protected int minute;
-
     protected boolean checked;
-
     protected int maxDay;
-
     protected boolean preview;
+    protected TaskDBHelper dbHelper;
+    protected TaskItem item;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +64,8 @@ public class Task extends Activity {
 
         addTaskButton = (Button) findViewById(R.id.addTask);
         cancelTaskButton = (Button) findViewById(R.id.cancelTask);
+
+        dbHelper = new TaskDBHelper(this);
 
         taskName = (EditText) findViewById(R.id.taskName);
         dateEdit = (EditText) findViewById(R.id.editTextDate);
@@ -86,12 +85,15 @@ public class Task extends Activity {
 
         addTaskButton.setEnabled(false);
 
+
         Intent in = getIntent();
         if (in.hasExtra("update")) {
 
             preview = true;
 
-            TaskItem item = (TaskItem) in.getSerializableExtra("update");
+            item = (TaskItem) in.getSerializableExtra("update");
+
+            dbHelper.deleteTask(item.getTaskName());
 
             addTaskButton.setText("Update");
             cancelTaskButton.setText("Delete");
@@ -203,6 +205,19 @@ public class Task extends Activity {
                 return true;
             }
 
+            protected boolean isExist(String name) {
+                TaskItem[] items = dbHelper.readTaskItems();
+                if (items != null) {
+                    for (TaskItem item : items) {
+                        if (item.getTaskName().equals(name)) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+
+            }
+
             protected int checkEnter(String name,int date,int maxday,int month,int year,int hour,int minute,boolean red,boolean yellow,boolean green) {
 
                 if (name.isEmpty()) {
@@ -233,6 +248,10 @@ public class Task extends Activity {
 
                 if (!red && !yellow && !green) {
                     return 8;
+                }
+
+                if (isExist(name)) {
+                    return 9;
                 }
 
                 return 0;
@@ -320,6 +339,9 @@ public class Task extends Activity {
                         case 8:
                             Toast.makeText(getBaseContext(),"Pick priority!",Toast.LENGTH_LONG).show();
                             break;
+                        case 9:
+                            Toast.makeText(getBaseContext(),"Task with this name already exist!",Toast.LENGTH_LONG).show();
+                            break;
                     }
 
                 }
@@ -342,15 +364,33 @@ public class Task extends Activity {
                     color = TaskItem.Color.GREEN;
                 }
 
-                TaskAdapter adapter = MainActivity.getTaskAdapter();
                 TaskItem item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, false, checked, color);
-                adapter.addTaskItem(item);
+                dbHelper.addTaskInBase(item);
+                TaskItem[] items = dbHelper.readTaskItems();
+                TaskAdapter adapter = MainActivity.getTaskAdapter();
+                adapter.updateAdapter(items);
+
 
                 Intent in = getIntent();
                 in.putExtra("new data", 3);
                 setResult(RESULT_OK, in);
                 finish();
             } else {
+                TaskItem.Color color;
+                if (colorRedPicked) {
+                    color = TaskItem.Color.RED;
+                } else if (colorYellowPicked) {
+                    color = TaskItem.Color.YELLOW;
+                } else {
+                    color = TaskItem.Color.GREEN;
+                }
+
+                item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, false, checked, color);
+                dbHelper.addTaskInBase(item);
+                TaskItem[] items = dbHelper.readTaskItems();
+                TaskAdapter adapter = MainActivity.getTaskAdapter();
+                adapter.updateAdapter(items);
+
                 setResult(RESULT_OK_UPDATE);
                 finish();
             }
@@ -364,6 +404,10 @@ public class Task extends Activity {
                  Intent in = new Intent(Task.this, MainActivity.class);
                  startActivity(in);
              } else {
+                 TaskItem[] items = dbHelper.readTaskItems();
+                 TaskAdapter adapter = MainActivity.getTaskAdapter();
+                 adapter.updateAdapter(items);
+
                  setResult(RESULT_OK_DELETE);
                  finish();
              }

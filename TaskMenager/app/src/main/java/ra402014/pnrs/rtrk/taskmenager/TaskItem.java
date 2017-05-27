@@ -212,10 +212,13 @@ public class TaskItem implements Serializable {
         switch (this.getPriority()) {
             case RED:
                 retVal = 2;
+                break;
             case YELLOW:
                 retVal =  1;
+                break;
             case GREEN:
                 retVal =  0;
+                break;
         }
 
         return retVal;

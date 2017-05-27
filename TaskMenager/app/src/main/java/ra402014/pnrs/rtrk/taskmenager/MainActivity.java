@@ -80,6 +80,7 @@ public class MainActivity extends Activity {
 
         dbHelper = new TaskDBHelper(this);
 
+
         serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
@@ -166,6 +167,13 @@ public class MainActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(serviceConnection);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TaskItem[] items = dbHelper.readTaskItems();
+        adapter.updateAdapter(items);
     }
 
     public static TaskAdapter getTaskAdapter() {

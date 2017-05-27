@@ -38,7 +38,7 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put("TaskName",task.getTaskName());
-        values.put("TaskDate",task.getTaskName());
+        values.put("TaskDate",task.getDate());
         values.put("TaskMonth",task.getMonth());
         values.put("TaskYear",task.getYear());
         values.put("TaskMinute",task.getMinute());
@@ -58,7 +58,7 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         int hour = curs.getInt(curs.getColumnIndex("TaskHour"));
         int minute = curs.getInt(curs.getColumnIndex("TaskMinute"));
         String desc = curs.getString(curs.getColumnIndex("TaskDesc"));
-        int priority = curs.getInt(curs.getColumnIndex("TaskMonth"));
+        int priority = curs.getInt(curs.getColumnIndex("TaskPriority"));
         //boolean turned = (curs.getBlob(curs.getColumnIndex("TaskTurned"))==0?true:false);
         TaskItem task;
 
@@ -88,7 +88,8 @@ public class TaskDBHelper extends SQLiteOpenHelper {
 
     public void deleteTask(String name) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(baseName,"TaskName"+"?=",new String[]{name});
+        db.delete(baseName,"TaskName"+"=?",new String[]{name});
         close();
     }
+
 }
