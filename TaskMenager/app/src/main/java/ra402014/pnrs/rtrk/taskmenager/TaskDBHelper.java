@@ -25,7 +25,7 @@ public class TaskDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE Tasks(TaskName TEXT,TaskDate INTEGER,TaskMonth,TaskYear INTEGER,TaskHour INTEGER,TaskMinute INTEGER,TaskDesc TEXT,TaskTurned BLOB,TaskPriority INTEGER);");
+        db.execSQL("CREATE TABLE Tasks(TaskName TEXT,TaskDate INTEGER,TaskMonth,TaskYear INTEGER,TaskHour INTEGER,TaskMinute INTEGER,TaskDesc TEXT,TaskTurned INTEGER,TaskPriority INTEGER);");
     }
 
     @Override
@@ -43,7 +43,7 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         values.put("TaskYear",task.getYear());
         values.put("TaskMinute",task.getMinute());
         values.put("TaskHour",task.getHour());
-        values.put("TaskTurned",task.isTurned());
+        values.put("TaskTurned",(task.isTurned() ? 1 : 0));
         values.put("TaskPriority",task.getTaskPriorityInt());
 
         db.insert(baseName,null,values);
@@ -59,15 +59,15 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         int minute = curs.getInt(curs.getColumnIndex("TaskMinute"));
         String desc = curs.getString(curs.getColumnIndex("TaskDesc"));
         int priority = curs.getInt(curs.getColumnIndex("TaskPriority"));
-        //boolean turned = (curs.getBlob(curs.getColumnIndex("TaskTurned"))==0?true:false);
+        boolean turned = (curs.getInt(curs.getColumnIndex("TaskTurned"))==1?true:false);
         TaskItem task;
 
         if (priority == 0) {
-            task = new TaskItem(name, desc, date, month, year, hour, minute, false, true, TaskItem.Color.GREEN);
+            task = new TaskItem(name, desc, date, month, year, hour, minute, false, turned, TaskItem.Color.GREEN);
         } else if (priority == 1) {
-            task = new TaskItem(name, desc, date, month, year, hour, minute, false, true, TaskItem.Color.YELLOW);
+            task = new TaskItem(name, desc, date, month, year, hour, minute, false, turned, TaskItem.Color.YELLOW);
         } else {
-            task = new TaskItem(name, desc, date, month, year, hour, minute, false, true, TaskItem.Color.RED);
+            task = new TaskItem(name, desc, date, month, year, hour, minute, false, turned, TaskItem.Color.RED);
         }
 
         return task;

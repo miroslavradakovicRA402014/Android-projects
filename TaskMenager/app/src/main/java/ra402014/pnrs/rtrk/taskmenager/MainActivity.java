@@ -26,6 +26,7 @@ import static ra402014.pnrs.rtrk.taskmenager.R.id.taskName;
 public class MainActivity extends Activity {
 
     private static final int REQUEST_CODE_LIST = 2;
+    private static final int REQUEST_CODE_STAT = 3;
     private static final int REQUEST_CODE_UPDATE = 4;
     private static final int RESULT_OK_UPDATE = 5;
     private static final int RESULT_OK_DELETE = 6;
@@ -38,7 +39,6 @@ public class MainActivity extends Activity {
     private ITaskBinder iTaskBinder;
     protected Intent serviceInt;
     protected TaskDBHelper dbHelper;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +110,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(MainActivity.this, Stat.class);
-                startActivityForResult(in,REQUEST_CODE_LIST);
+                startActivityForResult(in,REQUEST_CODE_STAT);
             }
         });
 
@@ -179,6 +179,7 @@ public class MainActivity extends Activity {
     public static TaskAdapter getTaskAdapter() {
         return adapter;
     }
+
 
 
 }

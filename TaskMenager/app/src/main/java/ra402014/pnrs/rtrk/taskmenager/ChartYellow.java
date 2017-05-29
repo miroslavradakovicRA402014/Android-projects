@@ -18,11 +18,36 @@ public class ChartYellow extends View {
     protected Paint paintChartMediumBg;
     protected RectF rectMedium;
     protected float percentageMedium = (float)0;
+    protected float percentage = 0;
     protected String percentStr;
     protected boolean drawFlag;
+    protected int percentageMediumNum = 0;
+
+
+    protected TaskDBHelper dbHelper;
+    protected TaskItem[] items;
 
     public ChartYellow(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        dbHelper = new TaskDBHelper(context);
+        items =  dbHelper.readTaskItems();
+
+        if (items != null) {
+            for (TaskItem item : items) {
+                if (item.getPriority() == TaskItem.Color.RED) {
+                    percentageMediumNum++;
+                    if (item.isFinished()) {
+                        percentage++;
+                    }
+                }
+            }
+        }
+
+        if (percentageMediumNum != 0) {
+            percentage = (percentage / percentageMediumNum) * 100;
+        }
+
 
         paintChartMediumBg= new Paint();
         paintChartMediumBg.setColor(Color.parseColor("#FF4587E4"));
@@ -74,7 +99,7 @@ public class ChartYellow extends View {
 
     public void setPercentageMedium(float percentageMedium) {
 
-         if (30 > this.percentageMedium) {
+         if (percentage > this.percentageMedium) {
              this.percentageMedium = percentageMedium;
              percentStr = Float.toString(this.percentageMedium)+"%";
              invalidate();

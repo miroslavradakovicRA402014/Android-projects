@@ -1,6 +1,7 @@
 package ra402014.pnrs.rtrk.taskmenager;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -16,6 +17,8 @@ public class Stat extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stat);
         backButton = (Button) findViewById(R.id.backButton);
+
+
         ChartRed chartRed = new ChartRed(getApplicationContext(), null);
         ChartYellow chartYellow = new ChartYellow(getApplicationContext(), null);
         ChartGreen chartGreen = new ChartGreen(getApplicationContext(), null);

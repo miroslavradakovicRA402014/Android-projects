@@ -26,13 +26,12 @@ public class TaskService extends Service {
     protected TaskBinder binder;
     protected static final long PERIOD = 60000L;
     protected ServiceThread mRunnable;
-    protected ArrayList<TaskItem> mTaskItems;
-    protected TaskItem item;
+    protected TaskDBHelper dbHelper;
     protected Notification.Builder builder;
     protected NotificationManager manager;
+    protected TaskItem[] items;
+
     public TaskService() {
-
-
     }
 
     @SuppressLint("NewApi")
@@ -42,6 +41,8 @@ public class TaskService extends Service {
         mRunnable = new ServiceThread();
         mRunnable.start();
         binder = new TaskBinder(getApplicationContext());
+
+        dbHelper = new TaskDBHelper(getApplicationContext());
 /*
         Notification.Builder builder = new Notification.Builder(getApplicationContext()).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Service created");
         manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -101,13 +102,18 @@ public class TaskService extends Service {
         @Override
         public void run() {
            while (mRun) {
-               mTaskItems = MainActivity.getTaskAdapter().getmTaskItems();
-               for (TaskItem item : mTaskItems) {
-                   if (isRemind(item)) {
-                       buildNotification(item.getTaskName(),item.getHour(),item.getMinute());
-                       manager.notify(4, builder.build());
+
+               //items = dbHelper.readTaskItems();
+                /*
+               if (items != null) {
+                   for (TaskItem item : items) {
+                       if (isRemind(item)) {
+                           buildNotification(item.getTaskName(), item.getHour(), item.getMinute());
+                           manager.notify(4, builder.build());
+                       }
                    }
                }
+               */
                try {
                    Thread.sleep(PERIOD);
                } catch (InterruptedException e) {

@@ -18,11 +18,36 @@ public class ChartRed extends View {
     protected Paint paintChartHighBg;
     protected RectF rectHigh;
     protected float percentageHigh = (float)0;
+    protected float percentage = 0;
     protected String percentStr;
     protected boolean drawFlag;
+    protected int percentageHighNum = 0;
+
+    protected TaskDBHelper dbHelper;
+    protected TaskItem[] items;
+
 
     public ChartRed(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+
+        dbHelper = new TaskDBHelper(context);
+        items =  dbHelper.readTaskItems();
+
+        if (items != null) {
+            for (TaskItem item : items) {
+                if (item.getPriority() == TaskItem.Color.RED) {
+                    percentageHighNum++;
+                    if (item.isFinished()) {
+                        percentage++;
+                    }
+                }
+            }
+        }
+
+        if (percentageHighNum != 0) {
+            percentage = (percentage / percentageHighNum) * 100;
+        }
 
         paintChartHighBg = new Paint();
         paintChartHighBg.setColor(Color.parseColor("#FF4587E4"));
@@ -42,6 +67,30 @@ public class ChartRed extends View {
 
     }
 
+/*
+    public ChartRed(Context context, AttributeSet attrs,float percentageHigh) {
+        super(context, attrs);
+
+        this.percentage = percentageHigh;
+
+        paintChartHighBg = new Paint();
+        paintChartHighBg.setColor(Color.parseColor("#FF4587E4"));
+        paintChartHighBg.setAntiAlias(true);
+        paintChartHighBg.setStyle(Paint.Style.FILL);
+
+        paintChartHigh = new Paint();
+        paintChartHigh.setColor(Color.RED);
+        paintChartHigh.setAntiAlias(true);
+        paintChartHigh.setStyle(Paint.Style.FILL);
+
+        rectHigh = new RectF();
+
+        percentStr = Float.toString(percentageHigh)+"%";
+
+        drawFlag = true;
+
+    }
+*/
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -73,7 +122,7 @@ public class ChartRed extends View {
     }
 
     public void setPercentageHigh(float percentageHigh) {
-        if (68 > this.percentageHigh) {
+        if (percentage > this.percentageHigh) {
             this.percentageHigh = percentageHigh;
             percentStr = Float.toString(this.percentageHigh)+"%";
             invalidate();

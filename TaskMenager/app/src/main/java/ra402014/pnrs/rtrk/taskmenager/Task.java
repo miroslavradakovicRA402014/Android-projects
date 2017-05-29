@@ -364,7 +364,7 @@ public class Task extends Activity {
                     color = TaskItem.Color.GREEN;
                 }
 
-                TaskItem item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, false, checked, color);
+                TaskItem item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, true, checked, color);
                 dbHelper.addTaskInBase(item);
                 TaskItem[] items = dbHelper.readTaskItems();
                 TaskAdapter adapter = MainActivity.getTaskAdapter();
@@ -385,7 +385,7 @@ public class Task extends Activity {
                     color = TaskItem.Color.GREEN;
                 }
 
-                item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, false, checked, color);
+                item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, true, checked, color);
                 dbHelper.addTaskInBase(item);
                 TaskItem[] items = dbHelper.readTaskItems();
                 TaskAdapter adapter = MainActivity.getTaskAdapter();

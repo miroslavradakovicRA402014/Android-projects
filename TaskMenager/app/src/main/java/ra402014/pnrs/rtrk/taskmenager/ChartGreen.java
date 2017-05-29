@@ -18,11 +18,37 @@ public class ChartGreen extends View {
     protected Paint paintChartLowBg;
     protected RectF rectLow;
     protected float percentageLow = (float)0;
+    protected float percentage = 0;
     protected String percentStr;
     protected boolean drawFlag;
+    protected int percentageLowNum = 0;
+
+
+    protected TaskDBHelper dbHelper;
+    protected TaskItem[] items;
 
     public ChartGreen(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+
+        dbHelper = new TaskDBHelper(context);
+        items =  dbHelper.readTaskItems();
+
+        if (items != null) {
+            for (TaskItem item : items) {
+                if (item.getPriority() == TaskItem.Color.RED) {
+                    percentageLowNum++;
+                    if (item.isFinished()) {
+                        percentage++;
+                    }
+                }
+            }
+        }
+
+        if (percentageLowNum != 0) {
+            percentage = (percentage / percentageLowNum) * 100;
+        }
+
 
         paintChartLowBg = new Paint();
         paintChartLowBg.setColor(Color.parseColor("#FF4587E4"));
@@ -73,7 +99,7 @@ public class ChartGreen extends View {
     }
 
     public void setPercentageLow(float percentageLow) {
-        if (90 > this.percentageLow) {
+        if (percentage > this.percentageLow) {
             this.percentageLow = percentageLow;
             percentStr = Float.toString(this.percentageLow)+"%";
             invalidate();
