@@ -55,6 +55,7 @@ public class Task extends Activity {
     protected boolean preview;
     protected TaskDBHelper dbHelper;
     protected TaskItem item;
+    protected boolean finished;
 
 
     @Override
@@ -108,6 +109,7 @@ public class Task extends Activity {
             reminder.setChecked(item.isTurned());
 
             TaskItem.Color color = item.getPriority();
+            finished = item.isFinished();
 
             if (color == TaskItem.Color.RED) {
                 greenButton.setEnabled(false);
@@ -364,7 +366,7 @@ public class Task extends Activity {
                     color = TaskItem.Color.GREEN;
                 }
 
-                TaskItem item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, true, checked, color);
+                TaskItem item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, false, checked, color);
                 dbHelper.addTaskInBase(item);
                 TaskItem[] items = dbHelper.readTaskItems();
                 TaskAdapter adapter = MainActivity.getTaskAdapter();
@@ -385,8 +387,9 @@ public class Task extends Activity {
                     color = TaskItem.Color.GREEN;
                 }
 
-                item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, true, checked, color);
+                item = new TaskItem(nameStr,descStr, date, month, year, hour, minute, finished, checked, color);
                 dbHelper.addTaskInBase(item);
+                //dbHelper.updateTask(item.getTaskName(),item);
                 TaskItem[] items = dbHelper.readTaskItems();
                 TaskAdapter adapter = MainActivity.getTaskAdapter();
                 adapter.updateAdapter(items);

@@ -36,7 +36,7 @@ public class ChartGreen extends View {
 
         if (items != null) {
             for (TaskItem item : items) {
-                if (item.getPriority() == TaskItem.Color.RED) {
+                if (item.getPriority() == TaskItem.Color.GREEN) {
                     percentageLowNum++;
                     if (item.isFinished()) {
                         percentage++;

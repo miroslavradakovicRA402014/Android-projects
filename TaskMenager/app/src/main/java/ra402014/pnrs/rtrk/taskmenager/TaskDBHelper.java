@@ -94,4 +94,21 @@ public class TaskDBHelper extends SQLiteOpenHelper {
         close();
     }
 
+    public void updateTask(String name,TaskItem task) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("TaskName",task.getTaskName());
+        values.put("TaskDate",task.getDate());
+        values.put("TaskMonth",task.getMonth());
+        values.put("TaskYear",task.getYear());
+        values.put("TaskMinute",task.getMinute());
+        values.put("TaskHour",task.getHour());
+        values.put("TaskTurned",(task.isTurned() ? 1 : 0));
+        values.put("TaskPriority",task.getTaskPriorityInt());
+        values.put("TaskFinished",task.isFinishedInt());
+
+        db.update(baseName,values,"TaskName"+"=?",new String[]{name});
+        close();
+    }
 }

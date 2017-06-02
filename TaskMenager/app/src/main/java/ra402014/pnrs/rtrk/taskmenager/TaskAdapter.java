@@ -24,11 +24,12 @@ public class TaskAdapter extends BaseAdapter {
 
     protected Context mContext;
     protected ArrayList<TaskItem> mTaskItems;
-
+    protected TaskDBHelper dbHelper;
 
     public TaskAdapter(Context context) {
         mContext = context;
         mTaskItems = new ArrayList<TaskItem>();
+        dbHelper = new TaskDBHelper(context);
     }
 
     public void addTaskItem(TaskItem item) {
@@ -99,11 +100,20 @@ public class TaskAdapter extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    TaskItem itemUpdated = new TaskItem(item.getTaskName(),item.getDescription(),item.getDate(),item.getMonth(),item.getYear(),item.getHour(),item.getMinute(),true,item.isTurned(),item.getPriority());
+                    dbHelper.updateTask(itemUpdated.getTaskName(),itemUpdated);
+                    TaskItem[] items = dbHelper.readTaskItems();
+                    TaskAdapter adapter = MainActivity.getTaskAdapter();
+                    adapter.updateAdapter(items);
                     holder.nameText.setPaintFlags(holder.nameText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
+                    TaskItem itemUpdated = new TaskItem(item.getTaskName(),item.getDescription(),item.getDate(),item.getMonth(),item.getYear(),item.getHour(),item.getMinute(),false,item.isTurned(),item.getPriority());
+                    dbHelper.updateTask(itemUpdated.getTaskName(),itemUpdated);
+                    TaskItem[] items = dbHelper.readTaskItems();
+                    TaskAdapter adapter = MainActivity.getTaskAdapter();
+                    adapter.updateAdapter(items);
                     holder.nameText.setPaintFlags(holder.nameText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
                 }
-
             }
         });
 
@@ -114,6 +124,10 @@ public class TaskAdapter extends BaseAdapter {
 
         holder.stateButton.setClickable(false);
         holder.stateButton.setChecked(item.isTurned());
+
+        if (item.isFinished()) {
+            holder.completedBox.setChecked(true);
+        }
 
         return view;
     }

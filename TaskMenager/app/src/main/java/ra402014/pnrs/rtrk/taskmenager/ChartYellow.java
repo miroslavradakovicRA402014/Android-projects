@@ -35,7 +35,7 @@ public class ChartYellow extends View {
 
         if (items != null) {
             for (TaskItem item : items) {
-                if (item.getPriority() == TaskItem.Color.RED) {
+                if (item.getPriority() == TaskItem.Color.YELLOW) {
                     percentageMediumNum++;
                     if (item.isFinished()) {
                         percentage++;
