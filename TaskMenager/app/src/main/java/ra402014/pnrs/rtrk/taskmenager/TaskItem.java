@@ -276,6 +276,14 @@ public class TaskItem implements Serializable {
         return finished;
     }
 
+    public int isFinishedInt() {
+        if (finished){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public void setFinished(boolean finish) {
         this.finished = finish;
     }
