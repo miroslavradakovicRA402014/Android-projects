@@ -26,7 +26,7 @@ public class TaskService extends Service {
     protected TaskBinder binder;
     protected static final long PERIOD = 60000L;
     protected ServiceThread mRunnable;
-    protected TaskDBHelper dbHelper;
+    protected static TaskDBHelper dbHelper;
     protected Notification.Builder builder;
     protected NotificationManager manager;
     protected TaskItem[] items;
@@ -43,22 +43,14 @@ public class TaskService extends Service {
         binder = new TaskBinder(getApplicationContext());
 
         dbHelper = new TaskDBHelper(getApplicationContext());
-/*
-        Notification.Builder builder = new Notification.Builder(getApplicationContext()).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Service created");
-        manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0, builder.build());
-*/
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mRunnable.exit();
-/*
-        Notification.Builder builder = new Notification.Builder(getApplicationContext()).setSmallIcon(R.drawable.ic_notify).setContentTitle("Task manager notification").setContentText("Service destroyed");
-        manager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0, builder.build());
-*/
+
     }
 
     void buildNotification(String taskName,int hour,int min) {
@@ -101,10 +93,15 @@ public class TaskService extends Service {
 
         @Override
         public void run() {
-           while (mRun) {
 
-               //items = dbHelper.readTaskItems();
-                /*
+            try {
+                Thread.sleep(6000L);
+            } catch (InterruptedException e) {
+
+            }
+
+            while (mRun) {
+               items = dbHelper.readTaskItems();
                if (items != null) {
                    for (TaskItem item : items) {
                        if (isRemind(item)) {
@@ -113,7 +110,7 @@ public class TaskService extends Service {
                        }
                    }
                }
-               */
+
                try {
                    Thread.sleep(PERIOD);
                } catch (InterruptedException e) {
