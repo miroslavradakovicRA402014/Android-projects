@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 public class Task extends Activity {
 
@@ -220,6 +221,24 @@ public class Task extends Activity {
 
             }
 
+            public boolean isPast(int dateP,int monthP,int yearP,int houP,int minP ) {
+                Calendar rightNow = Calendar.getInstance();
+                long currTime = rightNow.getTimeInMillis();
+                Calendar myDate = Calendar.getInstance();
+                myDate.clear();
+                myDate.set(yearP,monthP-1,dateP,houP,minP,0);
+
+                long dayTime = myDate.getTimeInMillis();
+
+                long diffTime = dayTime - currTime;
+
+                if (diffTime > 0) {
+                    return false;
+                }
+
+                return true;
+            }
+
             protected int checkEnter(String name,int date,int maxday,int month,int year,int hour,int minute,boolean red,boolean yellow,boolean green) {
 
                 if (name.isEmpty()) {
@@ -236,7 +255,7 @@ public class Task extends Activity {
                     return 4;
                 }
 
-                if (year < 2017 || year > 2030) {
+                if (year > 2030) {
                     return 5;
                 }
 
@@ -254,6 +273,10 @@ public class Task extends Activity {
 
                 if (isExist(name)) {
                     return 9;
+                }
+
+                if (isPast(date,month,year,hour,minute)) {
+                    return 10;
                 }
 
                 return 0;
@@ -343,6 +366,9 @@ public class Task extends Activity {
                             break;
                         case 9:
                             Toast.makeText(getBaseContext(),"Task with this name already exist!",Toast.LENGTH_LONG).show();
+                            break;
+                        case 10:
+                            Toast.makeText(getBaseContext(),"Task time is in the past!",Toast.LENGTH_LONG).show();
                             break;
                     }
 
