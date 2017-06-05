@@ -124,11 +124,11 @@ public class TaskAdapter extends BaseAdapter {
 
         holder.stateButton.setClickable(false);
         holder.stateButton.setChecked(item.isTurned());
-        /*
-        if (item.isFinished()) {
-            holder.completedBox.setChecked(true);
-        }
-        */
+
+        //if (item.isFinished()) {
+            holder.completedBox.setChecked(item.isFinished());
+        //}
+
         return view;
     }
 
