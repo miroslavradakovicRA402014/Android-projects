@@ -24,7 +24,7 @@ public class TaskService extends Service {
 
 
     protected TaskBinder binder;
-    protected static final long PERIOD = 60000L;
+    protected static final long PERIOD = 30000L;
     protected ServiceThread mRunnable;
     protected static TaskDBHelper dbHelper;
     protected Notification.Builder builder;
