@@ -26,6 +26,7 @@ public class ChartRed extends View {
     protected TaskDBHelper dbHelper;
     protected TaskItem[] items;
 
+    protected CalculateStat statCal;
 
     public ChartRed(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -33,6 +34,9 @@ public class ChartRed extends View {
 
         dbHelper = new TaskDBHelper(context);
         items =  dbHelper.readTaskItems();
+
+
+        statCal = new CalculateStat();
 
         if (items != null) {
             for (TaskItem item : items) {
@@ -46,7 +50,7 @@ public class ChartRed extends View {
         }
 
         if (percentageHighNum != 0) {
-            percentage = (percentage / percentageHighNum) * 100;
+            percentage = statCal.getPercentage((int)percentage,percentageHighNum);
         }
 
         paintChartHighBg = new Paint();

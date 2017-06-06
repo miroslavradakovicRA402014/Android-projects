@@ -27,11 +27,15 @@ public class ChartYellow extends View {
     protected TaskDBHelper dbHelper;
     protected TaskItem[] items;
 
+    protected CalculateStat statCal;
+
     public ChartYellow(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         dbHelper = new TaskDBHelper(context);
         items =  dbHelper.readTaskItems();
+
+        statCal = new CalculateStat();
 
         if (items != null) {
             for (TaskItem item : items) {
@@ -45,7 +49,7 @@ public class ChartYellow extends View {
         }
 
         if (percentageMediumNum != 0) {
-            percentage = (percentage / percentageMediumNum) * 100;
+            percentage = statCal.getPercentage((int)percentage,percentageMediumNum);
         }
 
 
