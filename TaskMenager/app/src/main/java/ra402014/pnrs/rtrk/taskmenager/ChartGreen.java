@@ -50,7 +50,7 @@ public class ChartGreen extends View {
         }
 
         if (percentageLowNum != 0) {
-            percentage = statCal.getPercentage((int)percentage,percentageLowNum);
+            percentage = statCal.getPercentage(percentageLowNum,(int)percentage);
         }
 
 

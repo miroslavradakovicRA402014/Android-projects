@@ -49,7 +49,7 @@ public class ChartYellow extends View {
         }
 
         if (percentageMediumNum != 0) {
-            percentage = statCal.getPercentage((int)percentage,percentageMediumNum);
+            percentage = statCal.getPercentage(percentageMediumNum,(int)percentage);
         }
 
 

@@ -50,7 +50,7 @@ public class ChartRed extends View {
         }
 
         if (percentageHighNum != 0) {
-            percentage = statCal.getPercentage((int)percentage,percentageHighNum);
+            percentage = statCal.getPercentage(percentageHighNum,(int)percentage);
         }
 
         paintChartHighBg = new Paint();
